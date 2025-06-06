@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "clean-dev": "rm -rf node_modules/.vite && vite --force",
-    "deep-clean": "rm -rf node_modules/.vite node_modules package-lock.json dist",
-    "reset": "npm run deep-clean && npm install && npm run clean-dev",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "build:analyze": "tsc && vite build --mode analyze",
+    "build:prod": "NODE_ENV=production tsc && vite build --mode production",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.vite",
+    "optimize": "npm run clean && npm ci && npm run build:prod"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.11.1",

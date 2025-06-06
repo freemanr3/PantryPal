@@ -33,4 +33,12 @@ function Badge({ className, variant, ...props }: BadgeProps) {
   )
 }
 
+export const WinePairingsPill: React.FC = () => (
+  <span
+    className="absolute top-3 right-3 rounded-full px-3 py-1 font-medium font-bold text-white bg-purple-600 shadow flex items-center gap-2 text-base transition-transform duration-200 hover:scale-105 hover:shadow-lg animate-fade-in"
+  >
+    Wine Pairings
+  </span>
+);
+
 export { Badge, badgeVariants }

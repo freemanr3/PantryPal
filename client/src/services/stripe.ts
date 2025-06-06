@@ -6,12 +6,14 @@ interface CreateSubscriptionParams {
   email: string;
   userId: string;
   name?: string;
+  plan: 'premium' | 'chef';
 }
 
 interface SubscriptionResponse {
   subscriptionId: string;
   clientSecret: string;
   customerId: string;
+  plan: 'premium' | 'chef';
 }
 
 /**
@@ -21,6 +23,7 @@ export async function createSubscription({
   email,
   userId,
   name,
+  plan,
 }: CreateSubscriptionParams): Promise<SubscriptionResponse> {
   try {
     const response = await fetch('/api/subscription/create-subscription', {
@@ -32,6 +35,7 @@ export async function createSubscription({
         email,
         userId,
         name,
+        plan,
       }),
     });
 

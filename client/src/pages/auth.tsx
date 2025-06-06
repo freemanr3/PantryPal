@@ -18,7 +18,7 @@ type AuthPageProps = {
 export default function AuthPage({ params }: AuthPageProps) {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const { login, signup, confirmAccount } = useAuth();
+  const { login, signup, confirmAccount, forgotPassword, resetPassword } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   
   // State for form inputs
@@ -30,6 +30,13 @@ export default function AuthPage({ params }: AuthPageProps) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmationCode, setConfirmationCode] = useState("");
   const [signupUsername, setSignupUsername] = useState("");
+
+  // Add state for forgot password flow
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotCode, setForgotCode] = useState("");
+  const [forgotNewPassword, setForgotNewPassword] = useState("");
+  const [forgotStep, setForgotStep] = useState<'request' | 'verify'>('request');
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -192,6 +199,7 @@ export default function AuthPage({ params }: AuthPageProps) {
                     required 
                   />
                 </div>
+                <button type="button" className="text-xs text-blue-600 hover:underline mt-1" onClick={() => setShowForgotPassword(true)}>Forgot password?</button>
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Logging in..." : "Login"}
                 </Button>
@@ -245,6 +253,56 @@ export default function AuthPage({ params }: AuthPageProps) {
           </div>
         </CardFooter>
       </Card>
+
+      {showForgotPassword && (
+        <div className="mt-4 p-4 bg-white rounded shadow border max-w-md mx-auto">
+          {forgotStep === 'request' ? (
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setIsLoading(true);
+              try {
+                await forgotPassword(forgotEmail);
+                toast({ title: 'Check your email', description: 'A verification code has been sent.' });
+                setForgotStep('verify');
+              } catch (error) {
+                toast({ title: 'Error', description: error instanceof Error ? error.message : 'Failed to send reset code.', variant: 'destructive' });
+              } finally {
+                setIsLoading(false);
+              }
+            }} className="space-y-4">
+              <Label htmlFor="forgot-email">Email</Label>
+              <Input id="forgot-email" type="email" value={forgotEmail} onChange={e => setForgotEmail(e.target.value)} required />
+              <Button type="submit" className="w-full" disabled={isLoading}>{isLoading ? 'Sending...' : 'Send Reset Code'}</Button>
+              <button type="button" className="text-xs text-gray-500 mt-2" onClick={() => setShowForgotPassword(false)}>Back to login</button>
+            </form>
+          ) : (
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setIsLoading(true);
+              try {
+                await resetPassword(forgotEmail, forgotCode, forgotNewPassword);
+                toast({ title: 'Password reset!', description: 'You can now log in with your new password.' });
+                setShowForgotPassword(false);
+                setForgotStep('request');
+                setForgotEmail("");
+                setForgotCode("");
+                setForgotNewPassword("");
+              } catch (error) {
+                toast({ title: 'Error', description: error instanceof Error ? error.message : 'Failed to reset password.', variant: 'destructive' });
+              } finally {
+                setIsLoading(false);
+              }
+            }} className="space-y-4">
+              <Label htmlFor="forgot-code">Verification Code</Label>
+              <Input id="forgot-code" value={forgotCode} onChange={e => setForgotCode(e.target.value)} required />
+              <Label htmlFor="forgot-new-password">New Password</Label>
+              <Input id="forgot-new-password" type="password" value={forgotNewPassword} onChange={e => setForgotNewPassword(e.target.value)} required />
+              <Button type="submit" className="w-full" disabled={isLoading}>{isLoading ? 'Resetting...' : 'Reset Password'}</Button>
+              <button type="button" className="text-xs text-gray-500 mt-2" onClick={() => setShowForgotPassword(false)}>Back to login</button>
+            </form>
+          )}
+        </div>
+      )}
     </div>
   );
 } 

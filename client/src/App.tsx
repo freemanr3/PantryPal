@@ -12,6 +12,8 @@ import { Header } from '@/components/header';
 import HomePage from '@/pages/home';
 import PricingPage from '@/pages/pricing';
 import RecipeDetail from '@/pages/recipe-detail';
+import LandingPage from '@/pages/landing';
+import AboutPage from '@/pages/about';
 import { useAuth } from '@/context/AuthContext';
 import { AuthProvider } from '@/context/AuthContext';
 import CognitoOAuthHandler from '@/components/auth/CognitoOAuthHandler';
@@ -132,20 +134,34 @@ function Router() {
           </ErrorBoundary>
         )}
       </Route>
+      <Route path="/about">
+        {(params) => (
+          <ErrorBoundary fallback={<RouteErrorFallback />}>
+            <Suspense fallback={<PageLoadingFallback />}>
+              <AboutPage />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </Route>
+      <Route path="/landing">
+        {(params) => (
+          <ErrorBoundary fallback={<RouteErrorFallback />}>
+            <Suspense fallback={<PageLoadingFallback />}>
+              <LandingPage />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </Route>
       <Route path="/">
         {(params) => {
-          // Redirect root path to discover for authenticated users
-          if (user) {
-            setLocation('/discover');
+          // Redirect root path to landing page for non-authenticated users
+          if (!user) {
+            setLocation('/landing');
             return null;
           }
-          return (
-            <ErrorBoundary fallback={<RouteErrorFallback />}>
-              <Suspense fallback={<PageLoadingFallback />}>
-                <HomePage params={params} />
-              </Suspense>
-            </ErrorBoundary>
-          );
+          // Redirect to discover for authenticated users
+          setLocation('/discover');
+          return null;
         }}
       </Route>
       <Route path="/discover">
