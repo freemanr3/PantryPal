@@ -4,46 +4,28 @@ frontend:
     preBuild:
       commands:
         - cd client
-        # Use npm ci for faster, deterministic builds
-        - npm ci --only=production --no-audit
-        # Install dev dependencies separately for build
-        - npm install --only=dev --no-audit
+        - npm ci
+        - echo "Node version:" && node --version
+        - echo "NPM version:" && npm --version
     build:
       commands:
-        # Set production environment
+        - cd client
         - export NODE_ENV=production
-        # Build with optimizations
         - npm run build
-        # Generate gzip versions for better compression
-        - find dist -name "*.js" -o -name "*.css" -o -name "*.html" | xargs gzip -k -9
     postBuild:
       commands:
-        # Clean up unnecessary files to reduce bundle size
-        - find client/dist -name "*.map" -type f -delete
-        # Add cache headers for static assets
-        - echo '/*    /index.html   200' > client/dist/_redirects
-        - echo '/static/*  Cache-Control: public, max-age=31536000, immutable' >> client/dist/_headers
-        - echo '/*.js  Cache-Control: public, max-age=31536000, immutable' >> client/dist/_headers  
-        - echo '/*.css  Cache-Control: public, max-age=31536000, immutable' >> client/dist/_headers
-        - echo '/*.png  Cache-Control: public, max-age=31536000, immutable' >> client/dist/_headers
-        - echo '/*.jpg  Cache-Control: public, max-age=31536000, immutable' >> client/dist/_headers
-        - echo '/index.html  Cache-Control: public, max-age=0, must-revalidate' >> client/dist/_headers
+        - cd client
+        - echo "/*    /index.html   200" > dist/_redirects
+        - echo "# Amplify SPA redirect for React Router"
   artifacts:
     baseDirectory: client/dist
     files:
-      - '**/*'
-    excludes:
-      - '**/*.map'
-      - 'node_modules/**/*'
+      - "**/*"
   cache:
     paths:
       - client/node_modules/**/*
-      - client/.npm/**/*
-      - client/.cache/**/*
-      - '~/.npm/**/*'
 backend:
   phases:
     build:
       commands:
-        # Optimize AppSync schema and resolvers
         - echo "Backend build optimizations"
