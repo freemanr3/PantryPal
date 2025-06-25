@@ -7,11 +7,47 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  User: a
     .model({
-      content: a.string(),
+      email: a.string().required(),
+      name: a.string().required(),
+      budget: a.float(),
+      dietaryPreferences: a.array(a.string()),
+      ingredients: a.array(a.string()),
+      profilePicture: a.string(),
+      recipes: a.hasMany('Recipe'),
+      favorites: a.hasMany('Recipe'),
     })
-    .authorization((allow) => [allow.guest()]),
+    .authorization([a.allow.owner(), a.allow.public('read')]),
+
+  Recipe: a
+    .model({
+      title: a.string().required(),
+      description: a.string(),
+      ingredients: a.array(a.string()).required(),
+      instructions: a.array(a.string()).required(),
+      cookingTime: a.integer(),
+      servings: a.integer(),
+      cost: a.float(),
+      imageUrl: a.string(),
+      createdBy: a.belongsTo('User'),
+      favoritedBy: a.hasMany('User'),
+      tags: a.array(a.string()),
+    })
+    .authorization([
+      a.allow.owner('create', 'update', 'delete'),
+      a.allow.public('read'),
+    ]),
+
+  Ingredient: a
+    .model({
+      name: a.string().required(),
+      category: a.string(),
+      price: a.float(),
+      unit: a.string(),
+      imageUrl: a.string(),
+    })
+    .authorization([a.allow.public()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,7 +55,13 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
+    defaultAuthorizationMode: 'userPool',
+    apiKeyAuthorizationMode: {
+      expiresIn: 7,
+    },
+    iamAuthorizationMode: {
+      enabled: true,
+    },
   },
 });
 
