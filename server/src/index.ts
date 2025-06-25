@@ -1,15 +1,21 @@
 import express, { type Request, Response, NextFunction } from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { neon } from '@neondatabase/serverless';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Database connection
+const sql = neon(process.env.DATABASE_URL!);
+
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5179',
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.CLIENT_URL || 'https://mealmatcher.amplifyapp.com'
+    : 'http://localhost:5179',
   credentials: true
 }));
 app.use(express.json());
@@ -45,35 +51,73 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mock user data
-const mockUser = {
-  id: "1",
-  budget: 100,
-  ingredients: ["chicken", "rice", "tomatoes"],
-  dietaryPreferences: ["vegetarian"]
-};
-
 // Routes
-app.get('/api/users/:id', (req, res) => {
-  res.json(mockUser);
+app.get('/api/users/:id', async (req, res, next) => {
+  try {
+    const { rows } = await sql`
+      SELECT * FROM users WHERE id = ${req.params.id}
+    `;
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.patch('/api/users/:id/budget', (req, res) => {
-  const { budget } = req.body;
-  mockUser.budget = budget;
-  res.json(mockUser);
+app.patch('/api/users/:id/budget', async (req, res, next) => {
+  try {
+    const { budget } = req.body;
+    const { rows } = await sql`
+      UPDATE users 
+      SET budget = ${budget}
+      WHERE id = ${req.params.id}
+      RETURNING *
+    `;
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.patch('/api/users/:id/ingredients', (req, res) => {
-  const { ingredients } = req.body;
-  mockUser.ingredients = ingredients;
-  res.json(mockUser);
+app.patch('/api/users/:id/ingredients', async (req, res, next) => {
+  try {
+    const { ingredients } = req.body;
+    const { rows } = await sql`
+      UPDATE users 
+      SET ingredients = ${ingredients}
+      WHERE id = ${req.params.id}
+      RETURNING *
+    `;
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.patch('/api/users/:id/preferences', (req, res) => {
-  const { preferences } = req.body;
-  mockUser.dietaryPreferences = preferences;
-  res.json(mockUser);
+app.patch('/api/users/:id/preferences', async (req, res, next) => {
+  try {
+    const { preferences } = req.body;
+    const { rows } = await sql`
+      UPDATE users 
+      SET dietary_preferences = ${preferences}
+      WHERE id = ${req.params.id}
+      RETURNING *
+    `;
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Error handling middleware
