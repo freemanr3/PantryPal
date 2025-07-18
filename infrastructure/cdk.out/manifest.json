@@ -1,0 +1,738 @@
+{
+  "version": "45.0.0",
+  "artifacts": {
+    "PantryPalStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "PantryPalStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "PantryPalStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://253490778931/us-east-2",
+      "properties": {
+        "templateFile": "PantryPalStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::253490778931:role/cdk-hnb659fds-deploy-role-253490778931-us-east-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::253490778931:role/cdk-hnb659fds-cfn-exec-role-253490778931-us-east-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-253490778931-us-east-2/7b4e50cf1d66b2012b3432253d13e52d1812acbfcf1d487b5e965685d80781e8.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "PantryPalStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::253490778931:role/cdk-hnb659fds-lookup-role-253490778931-us-east-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "PantryPalStack.assets"
+      ],
+      "metadata": {
+        "/PantryPalStack/PantryPalVPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPC157D3A19"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet1RouteTableE9D934EA"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet1DefaultRouteA704674C"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet2RouteTable7FE20FC9"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet1SubnetA9E56203"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet1RouteTable3761A9C5"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet1RouteTableAssociationC35E661D"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet1DefaultRouteF8FBD74E"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet1EIPBDF4AAA3"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet1NATGateway2BB2C450"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet2Subnet692AC764"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet2RouteTable0EAB7EF8"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet2RouteTableAssociation0401885A"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCPublicSubnet2DefaultRoute36C8BDE3"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCIGWE915D5F5"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCVPCGW6805622C"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/S3/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCS341A9DB78"
+          }
+        ],
+        "/PantryPalStack/PantryPalVPC/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalVPCRestrictDefaultSecurityGroupCustomResource469F0D1E"
+          }
+        ],
+        "/PantryPalStack/Custom::VpcRestrictDefaultSGCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/PantryPalStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/PantryPalStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/PantryPalStack/CacheSubnetGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CacheSubnetGroup"
+          }
+        ],
+        "/PantryPalStack/CacheSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CacheSecurityGroupC6A3ACCF"
+          }
+        ],
+        "/PantryPalStack/RecipeCache": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeCache"
+          }
+        ],
+        "/PantryPalStack/StaticAssets/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StaticAssetsDDEE9873"
+          }
+        ],
+        "/PantryPalStack/StaticAssets/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StaticAssetsPolicy88A634B0"
+          }
+        ],
+        "/PantryPalStack/RecipeImages/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeImagesDC582A3A"
+          }
+        ],
+        "/PantryPalStack/RecipeImages/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeImagesPolicyD83321C5"
+          }
+        ],
+        "/PantryPalStack/UserData/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserData6A2E227B"
+          }
+        ],
+        "/PantryPalStack/CDNLogs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDNLogsB82D440B"
+          }
+        ],
+        "/PantryPalStack/CDNLogs/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDNLogsPolicy85FB137B"
+          }
+        ],
+        "/PantryPalStack/CDNLogs/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDNLogsAutoDeleteObjectsCustomResource0A221BA1"
+          }
+        ],
+        "/PantryPalStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/PantryPalStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/PantryPalStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/PantryPalStack/PantryPalCDN/Origin1/S3Origin/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalCDNOrigin1S3OriginA00FC27E"
+          }
+        ],
+        "/PantryPalStack/PantryPalCDN/Origin2/S3Origin/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalCDNOrigin2S3OriginFD96FDFF"
+          }
+        ],
+        "/PantryPalStack/PantryPalCDN/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalCDN1C746889"
+          }
+        ],
+        "/PantryPalStack/Users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Users0A0EEA89"
+          }
+        ],
+        "/PantryPalStack/Recipes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipesCC4D8BAA"
+          }
+        ],
+        "/PantryPalStack/PantryPalUsers/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalUsers452E67EC"
+          }
+        ],
+        "/PantryPalStack/PantryPalUsers/PantryPalWeb/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalUsersPantryPalWeb4FCE3A44"
+          }
+        ],
+        "/PantryPalStack/PantryPalIdentity": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalIdentity"
+          }
+        ],
+        "/PantryPalStack/ExternalApiKeys/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExternalApiKeys78DBFC77"
+          }
+        ],
+        "/PantryPalStack/SharedLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SharedLayer27DFABF0"
+          }
+        ],
+        "/PantryPalStack/LambdaExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaExecutionRoleD5C26073"
+          }
+        ],
+        "/PantryPalStack/LambdaExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaExecutionRoleDefaultPolicy6D69732F"
+          }
+        ],
+        "/PantryPalStack/LambdaSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaSecurityGroup0BD9FC99"
+          }
+        ],
+        "/PantryPalStack/RecipeSearch/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeSearch51A69E27"
+          }
+        ],
+        "/PantryPalStack/RecipeSearch/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeSearchLogRetentionAF2A857C"
+          }
+        ],
+        "/PantryPalStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/PantryPalStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/PantryPalStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/PantryPalStack/RecipeDetails/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeDetailsE858D1BA"
+          }
+        ],
+        "/PantryPalStack/RecipeDetails/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeDetailsLogRetention0EA169CD"
+          }
+        ],
+        "/PantryPalStack/UserPreferences/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPreferences7114F2F9"
+          }
+        ],
+        "/PantryPalStack/UserPreferences/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPreferencesLogRetention4E7FA15C"
+          }
+        ],
+        "/PantryPalStack/ImageProcessing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageProcessingADEE6E5A"
+          }
+        ],
+        "/PantryPalStack/ImageProcessing/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImageProcessingLogRetention0628B241"
+          }
+        ],
+        "/PantryPalStack/StripeWebhooks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StripeWebhooksD8F72637"
+          }
+        ],
+        "/PantryPalStack/StripeWebhooks/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StripeWebhooksLogRetention3DB9AB02"
+          }
+        ],
+        "/PantryPalStack/SwipeTracker/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SwipeTracker13F3B253"
+          }
+        ],
+        "/PantryPalStack/SwipeTracker/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SwipeTrackerLogRetentionC48551AB"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiFD98E21F"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiDeploymentF624FD97e0a4467b556075ea23f79b9ce06ccbbd"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiDeploymentStageprod3FAFCBD5"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiEndpoint025D3485"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiOPTIONS4EDA9154"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipes5BB94618"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesOPTIONS6D808C3B"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesid4BB577F6"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/{id}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesidOPTIONS615298B7"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/{id}/GET/ApiPermission.PantryPalStackPantryPalApi1F18279C.GET..recipes.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesidGETApiPermissionPantryPalStackPantryPalApi1F18279CGETrecipesidF9855B5F"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/{id}/GET/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.GET..recipes.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesidGETApiPermissionTestPantryPalStackPantryPalApi1F18279CGETrecipesid6F4EFFA8"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/{id}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesidGETBEA93645"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/GET/ApiPermission.PantryPalStackPantryPalApi1F18279C.GET..recipes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesGETApiPermissionPantryPalStackPantryPalApi1F18279CGETrecipes325C7453"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/GET/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.GET..recipes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesGETApiPermissionTestPantryPalStackPantryPalApi1F18279CGETrecipesED3B0C7D"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/recipes/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApirecipesGET23A76426"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusers4BDB3712"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersOPTIONS10C75925"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserId2D7A5B1B"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdOPTIONSEBDD06A8"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/GET/ApiPermission.PantryPalStackPantryPalApi1F18279C.GET..users.{userId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdGETApiPermissionPantryPalStackPantryPalApi1F18279CGETusersuserIdD3254FCB"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/GET/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.GET..users.{userId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdGETApiPermissionTestPantryPalStackPantryPalApi1F18279CGETusersuserId053CD59F"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdGETD31FD41A"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/PUT/ApiPermission.PantryPalStackPantryPalApi1F18279C.PUT..users.{userId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdPUTApiPermissionPantryPalStackPantryPalApi1F18279CPUTusersuserId1AC29912"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/PUT/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.PUT..users.{userId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdPUTApiPermissionTestPantryPalStackPantryPalApi1F18279CPUTusersuserIdA2B68C07"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/users/{userId}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiusersuserIdPUTBC115D28"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooks99993060"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooksOPTIONS64D40C4D"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/stripe/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooksstripe198FBEB0"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/stripe/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooksstripeOPTIONS94BB8B3C"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/stripe/POST/ApiPermission.PantryPalStackPantryPalApi1F18279C.POST..webhooks.stripe": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooksstripePOSTApiPermissionPantryPalStackPantryPalApi1F18279CPOSTwebhooksstripe28A26A6B"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/stripe/POST/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.POST..webhooks.stripe": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooksstripePOSTApiPermissionTestPantryPalStackPantryPalApi1F18279CPOSTwebhooksstripe83BB6C62"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/webhooks/stripe/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiwebhooksstripePOSTA7DB0AD9"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/swipe/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiswipeE8AD49E6"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/swipe/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiswipeOPTIONSA2B0EDCF"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/swipe/POST/ApiPermission.PantryPalStackPantryPalApi1F18279C.POST..swipe": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiswipePOSTApiPermissionPantryPalStackPantryPalApi1F18279CPOSTswipe645BBC4A"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/swipe/POST/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.POST..swipe": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiswipePOSTApiPermissionTestPantryPalStackPantryPalApi1F18279CPOSTswipe86C31C19"
+          }
+        ],
+        "/PantryPalStack/PantryPalApi/Default/swipe/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PantryPalApiswipePOST1061E21F"
+          }
+        ],
+        "/PantryPalStack/ApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUrl"
+          }
+        ],
+        "/PantryPalStack/CloudFrontUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontUrl"
+          }
+        ],
+        "/PantryPalStack/UserPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolId"
+          }
+        ],
+        "/PantryPalStack/UserPoolClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClientId"
+          }
+        ],
+        "/PantryPalStack/IdentityPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IdentityPoolId"
+          }
+        ],
+        "/PantryPalStack/StaticAssetsBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StaticAssetsBucketName"
+          }
+        ],
+        "/PantryPalStack/RecipeImagesBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RecipeImagesBucketName"
+          }
+        ],
+        "/PantryPalStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/PantryPalStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/PantryPalStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "PantryPalStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1020.2"
+}

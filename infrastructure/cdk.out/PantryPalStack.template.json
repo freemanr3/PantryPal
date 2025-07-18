@@ -1,0 +1,3687 @@
+{
+ "Description": "Infrastructure stack for Pantry Pal application",
+ "Resources": {
+  "PantryPalVPC157D3A19": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "172.16.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/Resource"
+   }
+  },
+  "PantryPalVPCPrivateSubnet1Subnet1853665B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-2a",
+    "CidrBlock": "172.16.0.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet1/Subnet"
+   }
+  },
+  "PantryPalVPCPrivateSubnet1RouteTableE9D934EA": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet1/RouteTable"
+   }
+  },
+  "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPrivateSubnet1RouteTableE9D934EA"
+    },
+    "SubnetId": {
+     "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "PantryPalVPCPrivateSubnet1DefaultRouteA704674C": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "PantryPalVPCPublicSubnet1NATGateway2BB2C450"
+    },
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPrivateSubnet1RouteTableE9D934EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "PantryPalVPCPrivateSubnet2Subnet3AA61540": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-2b",
+    "CidrBlock": "172.16.1.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet2/Subnet"
+   }
+  },
+  "PantryPalVPCPrivateSubnet2RouteTable7FE20FC9": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet2/RouteTable"
+   }
+  },
+  "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPrivateSubnet2RouteTable7FE20FC9"
+    },
+    "SubnetId": {
+     "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "PantryPalVPCPublicSubnet1NATGateway2BB2C450"
+    },
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPrivateSubnet2RouteTable7FE20FC9"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "PantryPalVPCPublicSubnet1SubnetA9E56203": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-2a",
+    "CidrBlock": "172.16.2.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet1/Subnet"
+   }
+  },
+  "PantryPalVPCPublicSubnet1RouteTable3761A9C5": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet1/RouteTable"
+   }
+  },
+  "PantryPalVPCPublicSubnet1RouteTableAssociationC35E661D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPublicSubnet1RouteTable3761A9C5"
+    },
+    "SubnetId": {
+     "Ref": "PantryPalVPCPublicSubnet1SubnetA9E56203"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "PantryPalVPCPublicSubnet1DefaultRouteF8FBD74E": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "PantryPalVPCIGWE915D5F5"
+    },
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPublicSubnet1RouteTable3761A9C5"
+    }
+   },
+   "DependsOn": [
+    "PantryPalVPCVPCGW6805622C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "PantryPalVPCPublicSubnet1EIPBDF4AAA3": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet1/EIP"
+   }
+  },
+  "PantryPalVPCPublicSubnet1NATGateway2BB2C450": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "PantryPalVPCPublicSubnet1EIPBDF4AAA3",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "PantryPalVPCPublicSubnet1SubnetA9E56203"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "PantryPalVPCPublicSubnet1DefaultRouteF8FBD74E",
+    "PantryPalVPCPublicSubnet1RouteTableAssociationC35E661D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet1/NATGateway"
+   }
+  },
+  "PantryPalVPCPublicSubnet2Subnet692AC764": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-2b",
+    "CidrBlock": "172.16.3.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet2/Subnet"
+   }
+  },
+  "PantryPalVPCPublicSubnet2RouteTable0EAB7EF8": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet2/RouteTable"
+   }
+  },
+  "PantryPalVPCPublicSubnet2RouteTableAssociation0401885A": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPublicSubnet2RouteTable0EAB7EF8"
+    },
+    "SubnetId": {
+     "Ref": "PantryPalVPCPublicSubnet2Subnet692AC764"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "PantryPalVPCPublicSubnet2DefaultRoute36C8BDE3": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "PantryPalVPCIGWE915D5F5"
+    },
+    "RouteTableId": {
+     "Ref": "PantryPalVPCPublicSubnet2RouteTable0EAB7EF8"
+    }
+   },
+   "DependsOn": [
+    "PantryPalVPCVPCGW6805622C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "PantryPalVPCIGWE915D5F5": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/IGW"
+   }
+  },
+  "PantryPalVPCVPCGW6805622C": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "PantryPalVPCIGWE915D5F5"
+    },
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/VPCGW"
+   }
+  },
+  "PantryPalVPCS341A9DB78": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "PantryPalVPCPrivateSubnet1RouteTableE9D934EA"
+     },
+     {
+      "Ref": "PantryPalVPCPrivateSubnet2RouteTable7FE20FC9"
+     },
+     {
+      "Ref": "PantryPalVPCPublicSubnet1RouteTable3761A9C5"
+     },
+     {
+      "Ref": "PantryPalVPCPublicSubnet2RouteTable0EAB7EF8"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".s3"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "PantryPalStack/PantryPalVPC"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/S3/Resource"
+   }
+  },
+  "PantryPalVPCRestrictDefaultSecurityGroupCustomResource469F0D1E": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "PantryPalVPC157D3A19",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "253490778931"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalVPC/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:us-east-2:253490778931:security-group/",
+             {
+              "Fn::GetAtt": [
+               "PantryPalVPC157D3A19",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
+   }
+  },
+  "CacheSubnetGroup": {
+   "Type": "AWS::ElastiCache::SubnetGroup",
+   "Properties": {
+    "Description": "Subnet group for ElastiCache",
+    "SubnetIds": [
+     {
+      "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+     },
+     {
+      "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/CacheSubnetGroup"
+   }
+  },
+  "CacheSecurityGroupC6A3ACCF": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for ElastiCache cluster",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "PantryPalVPC157D3A19",
+        "CidrBlock"
+       ]
+      },
+      "Description": "Allow Redis access from Lambda functions",
+      "FromPort": 6379,
+      "IpProtocol": "tcp",
+      "ToPort": 6379
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/CacheSecurityGroup/Resource"
+   }
+  },
+  "RecipeCache": {
+   "Type": "AWS::ElastiCache::CacheCluster",
+   "Properties": {
+    "AutoMinorVersionUpgrade": true,
+    "CacheNodeType": "cache.t4g.micro",
+    "CacheSubnetGroupName": {
+     "Ref": "CacheSubnetGroup"
+    },
+    "Engine": "redis",
+    "EngineVersion": "7.0",
+    "NumCacheNodes": 1,
+    "Port": 6379,
+    "PreferredMaintenanceWindow": "sun:05:00-sun:09:00",
+    "VpcSecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "CacheSecurityGroupC6A3ACCF",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeCache"
+   }
+  },
+  "StaticAssetsDDEE9873": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "INTELLIGENT_TIERING",
+         "TransitionInDays": 30
+        }
+       ]
+      }
+     ]
+    },
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/StaticAssets/Resource"
+   }
+  },
+  "StaticAssetsPolicy88A634B0": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "StaticAssetsDDEE9873"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "PantryPalCDNOrigin1S3OriginA00FC27E",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "StaticAssetsDDEE9873",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/StaticAssets/Policy/Resource"
+   }
+  },
+  "RecipeImagesDC582A3A": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "PUT",
+        "POST"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "INTELLIGENT_TIERING",
+         "TransitionInDays": 30
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeImages/Resource"
+   }
+  },
+  "RecipeImagesPolicyD83321C5": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "RecipeImagesDC582A3A"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "PantryPalCDNOrigin2S3OriginFD96FDFF",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "RecipeImagesDC582A3A",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeImages/Policy/Resource"
+   }
+  },
+  "UserData6A2E227B": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "PUT",
+        "DELETE"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/UserData/Resource"
+   }
+  },
+  "CDNLogsB82D440B": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 30,
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "OwnershipControls": {
+     "Rules": [
+      {
+       "ObjectOwnership": "ObjectWriter"
+      }
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/CDNLogs/Resource"
+   }
+  },
+  "CDNLogsPolicy85FB137B": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "CDNLogsB82D440B"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "CDNLogsB82D440B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "CDNLogsB82D440B",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/CDNLogs/Policy/Resource"
+   }
+  },
+  "CDNLogsAutoDeleteObjectsCustomResource0A221BA1": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "CDNLogsB82D440B"
+    }
+   },
+   "DependsOn": [
+    "CDNLogsPolicy85FB137B"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/CDNLogs/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "CDNLogsB82D440B"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "PantryPalCDNOrigin1S3OriginA00FC27E": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Identity for PantryPalStackPantryPalCDNOrigin12414A162"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalCDN/Origin1/S3Origin/Resource"
+   }
+  },
+  "PantryPalCDNOrigin2S3OriginFD96FDFF": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Identity for PantryPalStackPantryPalCDNOrigin2F3104A0C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalCDN/Origin2/S3Origin/Resource"
+   }
+  },
+  "PantryPalCDN1C746889": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "CacheBehaviors": [
+      {
+       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+       "Compress": true,
+       "PathPattern": "/images/*",
+       "TargetOriginId": "PantryPalStackPantryPalCDNOrigin2F3104A0C",
+       "ViewerProtocolPolicy": "redirect-to-https"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "PantryPalStackPantryPalCDNOrigin12414A162",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Logging": {
+      "Bucket": {
+       "Fn::GetAtt": [
+        "CDNLogsB82D440B",
+        "RegionalDomainName"
+       ]
+      },
+      "Prefix": "cdn-logs/"
+     },
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "StaticAssetsDDEE9873",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "PantryPalStackPantryPalCDNOrigin12414A162",
+       "S3OriginConfig": {
+        "OriginAccessIdentity": {
+         "Fn::Join": [
+          "",
+          [
+           "origin-access-identity/cloudfront/",
+           {
+            "Ref": "PantryPalCDNOrigin1S3OriginA00FC27E"
+           }
+          ]
+         ]
+        }
+       }
+      },
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "RecipeImagesDC582A3A",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "PantryPalStackPantryPalCDNOrigin2F3104A0C",
+       "S3OriginConfig": {
+        "OriginAccessIdentity": {
+         "Fn::Join": [
+          "",
+          [
+           "origin-access-identity/cloudfront/",
+           {
+            "Ref": "PantryPalCDNOrigin2S3OriginFD96FDFF"
+           }
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "PriceClass": "PriceClass_100"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalCDN/Resource"
+   }
+  },
+  "Users0A0EEA89": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "userId",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "StreamSpecification": {
+     "StreamViewType": "NEW_AND_OLD_IMAGES"
+    },
+    "TimeToLiveSpecification": {
+     "AttributeName": "ttl",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/Users/Resource"
+   }
+  },
+  "RecipesCC4D8BAA": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "recipeId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "ingredientsKey",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "ingredients-index",
+      "KeySchema": [
+       {
+        "AttributeName": "ingredientsKey",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "NonKeyAttributes": [
+        "title",
+        "ingredients",
+        "thumbnail"
+       ],
+       "ProjectionType": "INCLUDE"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "recipeId",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "TimeToLiveSpecification": {
+     "AttributeName": "ttl",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/Recipes/Resource"
+   }
+  },
+  "PantryPalUsers452E67EC": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_phone_number",
+       "Priority": 1
+      },
+      {
+       "Name": "verified_email",
+       "Priority": 2
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": true,
+      "RequireUppercase": true
+     }
+    },
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     }
+    ],
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UsernameAttributes": [
+     "email"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalUsers/Resource"
+   }
+  },
+  "PantryPalUsersPantryPalWeb4FCE3A44": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AllowedOAuthFlows": [
+     "implicit"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "profile",
+     "phone",
+     "email",
+     "openid",
+     "aws.cognito.signin.user.admin"
+    ],
+    "CallbackURLs": [
+     "http://localhost:5173",
+     "https://pantrypal.com"
+    ],
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "UserPoolId": {
+     "Ref": "PantryPalUsers452E67EC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalUsers/PantryPalWeb/Resource"
+   }
+  },
+  "PantryPalIdentity": {
+   "Type": "AWS::Cognito::IdentityPool",
+   "Properties": {
+    "AllowUnauthenticatedIdentities": false,
+    "CognitoIdentityProviders": [
+     {
+      "ClientId": {
+       "Ref": "PantryPalUsersPantryPalWeb4FCE3A44"
+      },
+      "ProviderName": {
+       "Fn::GetAtt": [
+        "PantryPalUsers452E67EC",
+        "ProviderName"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalIdentity"
+   }
+  },
+  "ExternalApiKeys78DBFC77": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "GenerateSecretString": {
+     "GenerateStringKey": "dummy",
+     "SecretStringTemplate": "{\"SPOONACULAR_API_KEY\":\"\",\"EDAMAM_APP_ID\":\"\",\"EDAMAM_APP_KEY\":\"\"}"
+    },
+    "Name": "pantry-pal/api-keys"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/ExternalApiKeys/Resource"
+   }
+  },
+  "SharedLayer27DFABF0": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "nodejs18.x"
+    ],
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "c0ce8d0a3bf5323218fc531607a29b50f01f36366213b95e98377c7f2a8f1871.zip"
+    },
+    "Description": "Common utilities and API clients"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/SharedLayer/Resource",
+    "aws:asset:path": "asset.c0ce8d0a3bf5323218fc531607a29b50f01f36366213b95e98377c7f2a8f1871",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Content"
+   }
+  },
+  "LambdaExecutionRoleD5C26073": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/LambdaExecutionRole/Resource"
+   }
+  },
+  "LambdaExecutionRoleDefaultPolicy6D69732F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "ExternalApiKeys78DBFC77"
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RecipesCC4D8BAA",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "Users0A0EEA89",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "RecipesCC4D8BAA",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RecipeImagesDC582A3A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "UserData6A2E227B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "RecipeImagesDC582A3A",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "UserData6A2E227B",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "Roles": [
+     {
+      "Ref": "LambdaExecutionRoleD5C26073"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/LambdaExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "LambdaSecurityGroup0BD9FC99": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for Lambda functions",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PantryPalVPC157D3A19"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/LambdaSecurityGroup/Resource"
+   }
+  },
+  "RecipeSearch51A69E27": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "16ac60525b1e80ad885030de35e9c4556113ec789a6a0191470f2790f2ca7f58.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "REDIS_ENDPOINT": {
+       "Fn::GetAtt": [
+        "RecipeCache",
+        "RedisEndpoint.Address"
+       ]
+      },
+      "RECIPES_TABLE": {
+       "Ref": "RecipesCC4D8BAA"
+      },
+      "API_KEYS_SECRET": {
+       "Fn::Join": [
+        "-",
+        [
+         {
+          "Fn::Select": [
+           0,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           1,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           2,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       ]
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "SharedLayer27DFABF0"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaExecutionRoleD5C26073",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 30,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaSecurityGroup0BD9FC99",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+      },
+      {
+       "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "LambdaExecutionRoleD5C26073",
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeSearch/Resource",
+    "aws:asset:path": "asset.16ac60525b1e80ad885030de35e9c4556113ec789a6a0191470f2790f2ca7f58",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "RecipeSearchLogRetentionAF2A857C": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "RecipeSearch51A69E27"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeSearch/LogRetention/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:DeleteRetentionPolicy",
+        "logs:PutRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs22.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+    "aws:asset:path": "asset.2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "RecipeDetailsE858D1BA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "f3519662f1374bfeb4848316f77a2c333f547b57642122ed977f8e5ce6c520ea.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "REDIS_ENDPOINT": {
+       "Fn::GetAtt": [
+        "RecipeCache",
+        "RedisEndpoint.Address"
+       ]
+      },
+      "RECIPES_TABLE": {
+       "Ref": "RecipesCC4D8BAA"
+      },
+      "API_KEYS_SECRET": {
+       "Fn::Join": [
+        "-",
+        [
+         {
+          "Fn::Select": [
+           0,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           1,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           2,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       ]
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "SharedLayer27DFABF0"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaExecutionRoleD5C26073",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 30,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaSecurityGroup0BD9FC99",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+      },
+      {
+       "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "LambdaExecutionRoleD5C26073",
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeDetails/Resource",
+    "aws:asset:path": "asset.f3519662f1374bfeb4848316f77a2c333f547b57642122ed977f8e5ce6c520ea",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "RecipeDetailsLogRetention0EA169CD": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "RecipeDetailsE858D1BA"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/RecipeDetails/LogRetention/Resource"
+   }
+  },
+  "UserPreferences7114F2F9": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "b09383f320a33b661c1bfad590f6a663949d9bcbec0b190e7bf6c752956d9efe.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "USERS_TABLE": {
+       "Ref": "Users0A0EEA89"
+      },
+      "USER_DATA_BUCKET": {
+       "Ref": "UserData6A2E227B"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "SharedLayer27DFABF0"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaExecutionRoleD5C26073",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaSecurityGroup0BD9FC99",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+      },
+      {
+       "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "LambdaExecutionRoleD5C26073",
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/UserPreferences/Resource",
+    "aws:asset:path": "asset.b09383f320a33b661c1bfad590f6a663949d9bcbec0b190e7bf6c752956d9efe",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UserPreferencesLogRetention4E7FA15C": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UserPreferences7114F2F9"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/UserPreferences/LogRetention/Resource"
+   }
+  },
+  "ImageProcessingADEE6E5A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "9cfb8825e81f50ee26ac1590aac9978df1de40980b9a7d636613ed5a0daae14a.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "RECIPE_IMAGES_BUCKET": {
+       "Ref": "RecipeImagesDC582A3A"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "SharedLayer27DFABF0"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaExecutionRoleD5C26073",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 60,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaSecurityGroup0BD9FC99",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+      },
+      {
+       "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "LambdaExecutionRoleD5C26073",
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/ImageProcessing/Resource",
+    "aws:asset:path": "asset.9cfb8825e81f50ee26ac1590aac9978df1de40980b9a7d636613ed5a0daae14a",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ImageProcessingLogRetention0628B241": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "ImageProcessingADEE6E5A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/ImageProcessing/LogRetention/Resource"
+   }
+  },
+  "StripeWebhooksD8F72637": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "c5bb1e5340fd6c000f082def6e0db3bbd3f0530cd00165703e1094468faa2bc9.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "USERS_TABLE": {
+       "Ref": "Users0A0EEA89"
+      },
+      "API_KEYS_SECRET": {
+       "Fn::Join": [
+        "-",
+        [
+         {
+          "Fn::Select": [
+           0,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           1,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           2,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "ExternalApiKeys78DBFC77"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       ]
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaExecutionRoleD5C26073",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 30,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaSecurityGroup0BD9FC99",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+      },
+      {
+       "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "LambdaExecutionRoleD5C26073",
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/StripeWebhooks/Resource",
+    "aws:asset:path": "asset.c5bb1e5340fd6c000f082def6e0db3bbd3f0530cd00165703e1094468faa2bc9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "StripeWebhooksLogRetention3DB9AB02": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "StripeWebhooksD8F72637"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/StripeWebhooks/LogRetention/Resource"
+   }
+  },
+  "SwipeTracker13F3B253": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-253490778931-us-east-2",
+     "S3Key": "77046704882dfeb9b6097692c0ded6849eb354dae06c9f00a8322c190e1b0201.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "USERS_TABLE": {
+       "Ref": "Users0A0EEA89"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaExecutionRoleD5C26073",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaSecurityGroup0BD9FC99",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "PantryPalVPCPrivateSubnet1Subnet1853665B"
+      },
+      {
+       "Ref": "PantryPalVPCPrivateSubnet2Subnet3AA61540"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaExecutionRoleDefaultPolicy6D69732F",
+    "LambdaExecutionRoleD5C26073",
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/SwipeTracker/Resource",
+    "aws:asset:path": "asset.77046704882dfeb9b6097692c0ded6849eb354dae06c9f00a8322c190e1b0201",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SwipeTrackerLogRetentionC48551AB": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "SwipeTracker13F3B253"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "PantryPalVPCPrivateSubnet1DefaultRouteA704674C",
+    "PantryPalVPCPrivateSubnet1RouteTableAssociation461A0BB9",
+    "PantryPalVPCPrivateSubnet2DefaultRouteBE1B344B",
+    "PantryPalVPCPrivateSubnet2RouteTableAssociationEA415468"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/SwipeTracker/LogRetention/Resource"
+   }
+  },
+  "PantryPalApiFD98E21F": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "PantryPalApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Resource"
+   }
+  },
+  "PantryPalApiDeploymentF624FD97e0a4467b556075ea23f79b9ce06ccbbd": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "DependsOn": [
+    "PantryPalApiOPTIONS4EDA9154",
+    "PantryPalApirecipesidGETBEA93645",
+    "PantryPalApirecipesidOPTIONS615298B7",
+    "PantryPalApirecipesid4BB577F6",
+    "PantryPalApirecipesGET23A76426",
+    "PantryPalApirecipesOPTIONS6D808C3B",
+    "PantryPalApirecipes5BB94618",
+    "PantryPalApiswipeOPTIONSA2B0EDCF",
+    "PantryPalApiswipePOST1061E21F",
+    "PantryPalApiswipeE8AD49E6",
+    "PantryPalApiusersuserIdGETD31FD41A",
+    "PantryPalApiusersuserIdOPTIONSEBDD06A8",
+    "PantryPalApiusersuserIdPUTBC115D28",
+    "PantryPalApiusersuserId2D7A5B1B",
+    "PantryPalApiusersOPTIONS10C75925",
+    "PantryPalApiusers4BDB3712",
+    "PantryPalApiwebhooksOPTIONS64D40C4D",
+    "PantryPalApiwebhooks99993060",
+    "PantryPalApiwebhooksstripeOPTIONS94BB8B3C",
+    "PantryPalApiwebhooksstripePOSTA7DB0AD9",
+    "PantryPalApiwebhooksstripe198FBEB0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "PantryPalApiDeploymentStageprod3FAFCBD5": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "PantryPalApiDeploymentF624FD97e0a4467b556075ea23f79b9ce06ccbbd"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "PantryPalApiOPTIONS4EDA9154": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "PantryPalApiFD98E21F",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApirecipes5BB94618": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "PantryPalApiFD98E21F",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "recipes",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/Resource"
+   }
+  },
+  "PantryPalApirecipesOPTIONS6D808C3B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApirecipes5BB94618"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApirecipesid4BB577F6": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "PantryPalApirecipes5BB94618"
+    },
+    "PathPart": "{id}",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/{id}/Resource"
+   }
+  },
+  "PantryPalApirecipesidOPTIONS615298B7": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApirecipesid4BB577F6"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/{id}/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApirecipesidGETApiPermissionPantryPalStackPantryPalApi1F18279CGETrecipesidF9855B5F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "RecipeDetailsE858D1BA",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/",
+       {
+        "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+       },
+       "/GET/recipes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/{id}/GET/ApiPermission.PantryPalStackPantryPalApi1F18279C.GET..recipes.{id}"
+   }
+  },
+  "PantryPalApirecipesidGETApiPermissionTestPantryPalStackPantryPalApi1F18279CGETrecipesid6F4EFFA8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "RecipeDetailsE858D1BA",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/test-invoke-stage/GET/recipes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/{id}/GET/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.GET..recipes.{id}"
+   }
+  },
+  "PantryPalApirecipesidGETBEA93645": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "RecipeDetailsE858D1BA",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "PantryPalApirecipesid4BB577F6"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/{id}/GET/Resource"
+   }
+  },
+  "PantryPalApirecipesGETApiPermissionPantryPalStackPantryPalApi1F18279CGETrecipes325C7453": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "RecipeSearch51A69E27",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/",
+       {
+        "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+       },
+       "/GET/recipes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/GET/ApiPermission.PantryPalStackPantryPalApi1F18279C.GET..recipes"
+   }
+  },
+  "PantryPalApirecipesGETApiPermissionTestPantryPalStackPantryPalApi1F18279CGETrecipesED3B0C7D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "RecipeSearch51A69E27",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/test-invoke-stage/GET/recipes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/GET/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.GET..recipes"
+   }
+  },
+  "PantryPalApirecipesGET23A76426": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "RecipeSearch51A69E27",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "PantryPalApirecipes5BB94618"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/recipes/GET/Resource"
+   }
+  },
+  "PantryPalApiusers4BDB3712": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "PantryPalApiFD98E21F",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "users",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/Resource"
+   }
+  },
+  "PantryPalApiusersOPTIONS10C75925": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApiusers4BDB3712"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApiusersuserId2D7A5B1B": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "PantryPalApiusers4BDB3712"
+    },
+    "PathPart": "{userId}",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/Resource"
+   }
+  },
+  "PantryPalApiusersuserIdOPTIONSEBDD06A8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApiusersuserId2D7A5B1B"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApiusersuserIdGETApiPermissionPantryPalStackPantryPalApi1F18279CGETusersuserIdD3254FCB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UserPreferences7114F2F9",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/",
+       {
+        "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+       },
+       "/GET/users/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/GET/ApiPermission.PantryPalStackPantryPalApi1F18279C.GET..users.{userId}"
+   }
+  },
+  "PantryPalApiusersuserIdGETApiPermissionTestPantryPalStackPantryPalApi1F18279CGETusersuserId053CD59F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UserPreferences7114F2F9",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/test-invoke-stage/GET/users/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/GET/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.GET..users.{userId}"
+   }
+  },
+  "PantryPalApiusersuserIdGETD31FD41A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "UserPreferences7114F2F9",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "PantryPalApiusersuserId2D7A5B1B"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/GET/Resource"
+   }
+  },
+  "PantryPalApiusersuserIdPUTApiPermissionPantryPalStackPantryPalApi1F18279CPUTusersuserId1AC29912": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UserPreferences7114F2F9",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/",
+       {
+        "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+       },
+       "/PUT/users/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/PUT/ApiPermission.PantryPalStackPantryPalApi1F18279C.PUT..users.{userId}"
+   }
+  },
+  "PantryPalApiusersuserIdPUTApiPermissionTestPantryPalStackPantryPalApi1F18279CPUTusersuserIdA2B68C07": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UserPreferences7114F2F9",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/test-invoke-stage/PUT/users/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/PUT/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.PUT..users.{userId}"
+   }
+  },
+  "PantryPalApiusersuserIdPUTBC115D28": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "UserPreferences7114F2F9",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "PantryPalApiusersuserId2D7A5B1B"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/users/{userId}/PUT/Resource"
+   }
+  },
+  "PantryPalApiwebhooks99993060": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "PantryPalApiFD98E21F",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "webhooks",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/Resource"
+   }
+  },
+  "PantryPalApiwebhooksOPTIONS64D40C4D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApiwebhooks99993060"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApiwebhooksstripe198FBEB0": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "PantryPalApiwebhooks99993060"
+    },
+    "PathPart": "stripe",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/stripe/Resource"
+   }
+  },
+  "PantryPalApiwebhooksstripeOPTIONS94BB8B3C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApiwebhooksstripe198FBEB0"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/stripe/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApiwebhooksstripePOSTApiPermissionPantryPalStackPantryPalApi1F18279CPOSTwebhooksstripe28A26A6B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "StripeWebhooksD8F72637",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/",
+       {
+        "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+       },
+       "/POST/webhooks/stripe"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/stripe/POST/ApiPermission.PantryPalStackPantryPalApi1F18279C.POST..webhooks.stripe"
+   }
+  },
+  "PantryPalApiwebhooksstripePOSTApiPermissionTestPantryPalStackPantryPalApi1F18279CPOSTwebhooksstripe83BB6C62": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "StripeWebhooksD8F72637",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/test-invoke-stage/POST/webhooks/stripe"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/stripe/POST/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.POST..webhooks.stripe"
+   }
+  },
+  "PantryPalApiwebhooksstripePOSTA7DB0AD9": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "StripeWebhooksD8F72637",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "RequestParameters": {
+     "method.request.header.stripe-signature": true
+    },
+    "ResourceId": {
+     "Ref": "PantryPalApiwebhooksstripe198FBEB0"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/webhooks/stripe/POST/Resource"
+   }
+  },
+  "PantryPalApiswipeE8AD49E6": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "PantryPalApiFD98E21F",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "swipe",
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/swipe/Resource"
+   }
+  },
+  "PantryPalApiswipeOPTIONSA2B0EDCF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "PantryPalApiswipeE8AD49E6"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/swipe/OPTIONS/Resource"
+   }
+  },
+  "PantryPalApiswipePOSTApiPermissionPantryPalStackPantryPalApi1F18279CPOSTswipe645BBC4A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SwipeTracker13F3B253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/",
+       {
+        "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+       },
+       "/POST/swipe"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/swipe/POST/ApiPermission.PantryPalStackPantryPalApi1F18279C.POST..swipe"
+   }
+  },
+  "PantryPalApiswipePOSTApiPermissionTestPantryPalStackPantryPalApi1F18279CPOSTswipe86C31C19": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SwipeTracker13F3B253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-2:253490778931:",
+       {
+        "Ref": "PantryPalApiFD98E21F"
+       },
+       "/test-invoke-stage/POST/swipe"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/swipe/POST/ApiPermission.Test.PantryPalStackPantryPalApi1F18279C.POST..swipe"
+   }
+  },
+  "PantryPalApiswipePOST1061E21F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SwipeTracker13F3B253",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "PantryPalApiswipeE8AD49E6"
+    },
+    "RestApiId": {
+     "Ref": "PantryPalApiFD98E21F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/PantryPalApi/Default/swipe/POST/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/3VT227bMAz9lr0rWpHsB9L0ggDdaiRbXgtZZl02tmSIUgrD8L+Pkh3b3eWJh4d3ilrL9c03efNFfdBKF+dVhbnsjl7ps2DqpQO9lt2p0WL3ak7ZTmQOL8rDMeQGfCRndLDBw0+VVzDzM7clshqVR2smZ5GFvEI9p7jfZ1H8UP6Ri3yoNmp748Gxw4LiTkZt67nXtxqMFyPDzd6borFo/Og6qUfQwaFvH50NTWpySfQCKkUeNScE2U0zTN67aNhVgbifXtBGdrdBn4fORzSIzPJU7UyP+qDcKoJe6MqG4tVZ42V3h+Qd5iHt5tlhiWarNRDtC56L20vFY8BDDPifxzJNL4rWqNoW/JrTkyTApW1p0FvZ/SJwmbVVtE34CnYVwrDBv5lr1cjyIkA78FQro0pwfD1JH9fLqBeVqvNCye5JteBO4Gg8gk/6QzD6eh1LnIGrkSgNRZsXRcTF5DYKgaqW3cEO4yU5r35AXNyWJJ9seQAfu+akqsFyuBUOBvLbBlP8CO+gqWxbj7MuNP4W5XDbCbC/DU5DfFDxHfybLaJxRFfrmDnhvl/QfEa2/pfXH6bM2QsW4FKZNHYsj6aMMc/BN4E3bGwB8p2+XtZrueHv/E6IKxd43hrkYZC/AQ7+m2frAwAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PantryPalStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "PantryPalApiEndpoint025D3485": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "PantryPalApiFD98E21F"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiUrl": {
+   "Description": "API Gateway endpoint URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "PantryPalApiFD98E21F"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "PantryPalApiDeploymentStageprod3FAFCBD5"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "CloudFrontUrl": {
+   "Description": "CloudFront distribution domain name",
+   "Value": {
+    "Fn::GetAtt": [
+     "PantryPalCDN1C746889",
+     "DomainName"
+    ]
+   }
+  },
+  "UserPoolId": {
+   "Description": "Cognito User Pool ID",
+   "Value": {
+    "Ref": "PantryPalUsers452E67EC"
+   }
+  },
+  "UserPoolClientId": {
+   "Description": "Cognito User Pool Client ID",
+   "Value": {
+    "Ref": "PantryPalUsersPantryPalWeb4FCE3A44"
+   }
+  },
+  "IdentityPoolId": {
+   "Description": "Cognito Identity Pool ID",
+   "Value": {
+    "Ref": "PantryPalIdentity"
+   }
+  },
+  "StaticAssetsBucketName": {
+   "Description": "S3 bucket for static assets",
+   "Value": {
+    "Ref": "StaticAssetsDDEE9873"
+   }
+  },
+  "RecipeImagesBucketName": {
+   "Description": "S3 bucket for recipe images",
+   "Value": {
+    "Ref": "RecipeImagesDC582A3A"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

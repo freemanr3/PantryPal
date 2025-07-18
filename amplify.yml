@@ -1,31 +1,39 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - cd client
-        - npm ci
-        - echo "Node version:" && node --version
-        - echo "NPM version:" && npm --version
-    build:
-      commands:
-        - cd client
-        - export NODE_ENV=production
-        - npm run build
-    postBuild:
-      commands:
-        - cd client
-        - echo "/*    /index.html   200" > dist/_redirects
-        - echo "# Amplify SPA redirect for React Router"
-  artifacts:
-    baseDirectory: client/dist
-    files:
-      - "**/*"
-  cache:
-    paths:
-      - client/node_modules/**/*
-backend:
-  phases:
-    build:
-      commands:
-        - echo "Backend build optimizations"
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - cd frontend
+            - npm ci
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: frontend/dist
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - frontend/node_modules/**/*
+    appRoot: .
+  - backend:
+      phases:
+        preBuild:
+          commands:
+            - cd lambda
+            - npm ci
+        build:
+          commands:
+            - npm run build
+            - cd dist && zip -r ../lambda.zip .
+      artifacts:
+        baseDirectory: lambda
+        files:
+          - lambda.zip
+          - package.json
+          - package-lock.json
+      cache:
+        paths:
+          - lambda/node_modules/**/*
+    appRoot: .

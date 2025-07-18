@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+import 'source-map-support/register';
+import * as cdk from 'aws-cdk-lib';
+import { PantryPalStack } from '../lib/pantry-pal-stack';
+
+const app = new cdk.App();
+new PantryPalStack(app, 'PantryPalStack', {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION || 'us-east-1'
+  },
+  description: 'Infrastructure stack for Pantry Pal application'
+});
+
+app.synth(); 

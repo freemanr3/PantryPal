@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/server",
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "isolatedModules": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
+  },
+  "include": ["server/**/*"],
+  "exclude": ["node_modules", "client", "**/*.test.ts", "**/*.spec.ts"]
+} 

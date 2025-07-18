@@ -11,6 +11,8 @@ import { Clock, DollarSign, Users, ChevronLeft, Heart, Bookmark, Share2, Printer
 import { recipeService } from "@/services/recipeService";
 import { InteractiveSteps } from "@/components/recipe/InteractiveSteps";
 import { sanitizeHtml } from "@/lib/recipeUtils";
+import { printRecipe } from "@/lib/printUtils";
+import { useToast } from "@/components/ui/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Define the params type
@@ -19,6 +21,7 @@ type RecipeParams = {
 };
 
 const RecipeDetail = () => {
+  const { toast } = useToast();
   const [, setLocation] = useLocation();
   const [match, params] = useRoute<RecipeParams>("/recipe/:id");
   const [isSaved, setIsSaved] = useState(false);
@@ -40,21 +43,80 @@ const RecipeDetail = () => {
     }
   }, [recipeId]);
   
-  const handleSaveRecipe = () => {
+  const handleSaveRecipe = async () => {
     if (!recipe) return;
     
-    const savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
-    
-    // Toggle saved state
-    if (isSaved) {
-      const filteredRecipes = savedRecipes.filter((saved: any) => saved.id !== recipe.id);
-      localStorage.setItem('savedRecipes', JSON.stringify(filteredRecipes));
-    } else {
-      savedRecipes.push(recipe);
-      localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+    try {
+      const savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+      const today = new Date().toISOString().split('T')[0];
+      const savedToday = savedRecipes.filter((saved: any) => 
+        saved.savedAt?.split('T')[0] === today
+      ).length;
+      
+      // Check if user has reached the daily limit
+      if (!isSaved && savedToday >= 10) {
+        toast({
+          title: "Daily Limit Reached",
+          description: "You can only save 10 recipes per day. Upgrade to Premium for unlimited saves!",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Toggle saved state
+      if (isSaved) {
+        const filteredRecipes = savedRecipes.filter((saved: any) => saved.id !== recipe.id);
+        localStorage.setItem('savedRecipes', JSON.stringify(filteredRecipes));
+        toast({
+          title: "Recipe Removed",
+          description: "Recipe has been removed from your saved recipes."
+        });
+      } else {
+        const recipeToSave = {
+          ...recipe,
+          savedAt: new Date().toISOString()
+        };
+        savedRecipes.push(recipeToSave);
+        localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+        toast({
+          title: "Recipe Saved",
+          description: "Recipe has been added to your saved recipes!"
+        });
+      }
+      
+      setIsSaved(!isSaved);
+    } catch (error) {
+      console.error('Error saving recipe:', error);
+      toast({
+        title: "Error",
+        description: "There was an error saving the recipe. Please try again.",
+        variant: "destructive"
+      });
     }
+  };
+  
+  const handlePrint = () => {
+    if (!recipe) return;
+    printRecipe(recipe);
+  };
+  
+  const handleShare = async () => {
+    if (!recipe) return;
     
-    setIsSaved(!isSaved);
+    try {
+      await navigator.share({
+        title: recipe.title,
+        text: `Check out this recipe for ${recipe.title} on Pantry Pal!`,
+        url: window.location.href
+      });
+    } catch (error) {
+      // Fallback to copying link
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link Copied",
+        description: "Recipe link has been copied to your clipboard!"
+      });
+    }
   };
   
   const handleGoBack = () => {
@@ -129,20 +191,49 @@ const RecipeDetail = () => {
           </Button>
           
           <div className="flex space-x-2">
-            <Button 
-              variant="outline" 
-              size="icon"
-              onClick={handleSaveRecipe}
-              className={isSaved ? "text-red-500" : ""}
-            >
-              {isSaved ? <Bookmark className="h-4 w-4 fill-current" /> : <Bookmark className="h-4 w-4" />}
-            </Button>
-            <Button variant="outline" size="icon">
-              <Share2 className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon">
-              <Printer className="h-4 w-4" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    onClick={handleSaveRecipe}
+                    className={isSaved ? "text-red-500" : ""}
+                  >
+                    {isSaved ? <Bookmark className="h-4 w-4 fill-current" /> : <Bookmark className="h-4 w-4" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isSaved ? 'Remove from Saved' : 'Save Recipe'}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" onClick={handleShare}>
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Share Recipe</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" onClick={handlePrint}>
+                    <Printer className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Print Recipe</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
         

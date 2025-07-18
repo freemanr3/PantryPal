@@ -1,131 +1,116 @@
-# PantryPal
+# Pantry Pal
 
-PantryPal is a meal planning application that helps users discover recipes based on ingredients they have on hand, plan meals, and reduce food waste.
+A modern recipe discovery application that helps users find recipes based on their available ingredients, dietary preferences, and cooking constraints.
 
 ## Features
 
-- User authentication via AWS Cognito
-- Recipe discovery based on available ingredients
-- Meal planning functionality
-- Ingredient management
-- Responsive design for desktop and mobile
+- Recipe search by ingredients
+- Dietary preferences and restrictions
+- Recipe saving with daily limits (10 recipes for free users)
+- Premium user features
+- Image optimization and caching
+- Print-friendly recipe pages
 
-## Technology Stack
+## Architecture
 
-- Frontend: React with TypeScript
-- UI: Custom components with Tailwind CSS
-- Authentication: AWS Cognito
-- API: RESTful backend
-- State Management: React Context API and React Query
+The application uses a modern serverless architecture on AWS:
 
-## Getting Started
+- Frontend: React + TypeScript
+- Backend: AWS Lambda + API Gateway
+- Storage: S3 + DynamoDB
+- Caching: Redis (ElastiCache) + CloudFront
+- Authentication: Cognito
+- Image Processing: Lambda + Sharp
+- Deployment: AWS Amplify
+
+## Setup
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- npm or yarn
-- AWS account (for Cognito authentication)
+- Node.js 18+
+- AWS CLI configured
+- AWS CDK CLI
+- Docker (for local development)
 
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/PantryPal.git
-   cd PantryPal
-   ```
-
-2. Install dependencies:
-   ```bash
-   cd client
-   npm install
-   ```
-
-3. Configure AWS Cognito:
-   - Follow the instructions in `client/src/AWS_COGNITO_SETUP.md` to set up an AWS Cognito User Pool
-   - Update the configuration in `client/src/config/aws-exports.js` with your AWS credentials
-
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-5. The application should now be running at `http://localhost:5173` (or another port if specified)
-
-## AWS Cognito Authentication
-
-This application uses AWS Cognito for user authentication. Key features include:
-
-- User registration with email verification
-- User login with username/email and password
-- Secure token-based authentication
-- Password recovery
-
-For detailed setup instructions, refer to `client/src/AWS_COGNITO_SETUP.md`.
-
-## Development
-
-### Project Structure
-
-```
-client/
-├── public/            # Static assets
-├── src/
-│   ├── components/    # UI components
-│   ├── config/        # Configuration files
-│   ├── context/       # React contexts
-│   ├── hooks/         # Custom React hooks
-│   ├── lib/           # Utility functions
-│   ├── pages/         # Page components
-│   └── styles/        # Global styles
-└── ...                # Config files
+```bash
+git clone https://github.com/yourusername/pantry-pal.git
+cd pantry-pal
 ```
 
-### Available Scripts
+2. Install frontend dependencies:
+```bash
+cd client
+npm install
+```
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
+3. Install backend dependencies:
+```bash
+cd ../lambda
+npm install
+```
+
+4. Deploy infrastructure:
+```bash
+cd ../infrastructure
+npm install
+cdk deploy
+```
+
+### Environment Variables
+
+Create a `.env` file in the `client` directory:
+
+```env
+VITE_API_URL=your_api_gateway_url
+VITE_USER_POOL_ID=your_cognito_user_pool_id
+VITE_USER_POOL_CLIENT_ID=your_cognito_client_id
+VITE_IDENTITY_POOL_ID=your_cognito_identity_pool_id
+VITE_REGION=your_aws_region
+```
+
+### Development
+
+1. Start the frontend development server:
+```bash
+cd client
+npm run dev
+```
+
+2. Build and test Lambda functions:
+```bash
+cd lambda
+npm run build
+npm test
+```
+
+### Deployment
+
+The application is automatically deployed through AWS Amplify when changes are pushed to the main branch. The `amplify.yml` file defines the build and deployment process.
+
+## API Documentation
+
+### Recipe Search API
+
+- `GET /recipes?options={...}`: Search recipes by ingredients and preferences
+- `GET /recipes/{id}`: Get detailed recipe information
+
+### User Preferences API
+
+- `GET /users/{userId}`: Get user preferences
+- `PUT /users/{userId}`: Update user preferences
+- `POST /users/{userId}/saved-recipes`: Save a recipe
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-🍽️ Pantry Pal - Swipe Right on Dinner!
-
-Pantry Pal is a Tinder-like meal planning app that helps users discover meal ideas based on the ingredients they already have at home. With a fun swipe interface, users can match with recipes tailored to their pantry, dietary restrictions, and preferences. Pantry Pal helps reduce food waste, inspire creativity in the kitchen, and make meal planning easy and enjoyable.
-
-📱 Features
-
-Core Features
-🥕 Ingredient-Based Meal Matching: Enter ingredients you already have and swipe through meal ideas that match.
-🍽️ Swipe to Save Recipes: Swipe right to save meals to your meal plan, swipe left to skip.
-🌱 Dietary Preferences: Set preferences like vegetarian, vegan, gluten-free, keto, and more.
-📊 Simple Nutritional Info: View basic nutrition information for each meal.
-🛒 Smart Shopping List: Automatically generates a shopping list for missing ingredients.
-Premium Features (Subscription)
-📸 Ingredient Scanner: Use your phone's camera to scan items directly into your ingredient list.
-🧑‍🍳 AI Chef Suggestions: Personalized tips and ingredient swaps for each recipe.
-🍱 Meal Prep Planner: Weekly meal plans based on your pantry and dietary goals.
-📊 Detailed Nutritional Breakdown: Full macro and calorie analysis for each recipe.
-📚 Exclusive Chef Recipes: Premium access to recipes curated by professional chefs.
-⚠️ Advanced Allergen Filtering: Filter meals by allergens (nuts, dairy, shellfish, etc.).
-👨‍👩‍👧‍👦 Family & Friends Meal Matching: Sync with friends or family to vote on meals together.
-♻️ Leftover Makeover Mode: Creative suggestions for meals using near-expiry ingredients.
-🌎 Seasonal Suggestions: Get recipes based on seasonal and local ingredients.
-🛠️ Tech Stack
-
-Layer	Technology (suggested examples)
-Frontend	React Native / Flutter (cross-platform)
-Backend	Node.js / Django (API for recipes & user data)
-Database	MongoDB / PostgreSQL
-AI Integration	OpenAI API (for smart meal suggestions)
-Image Recognition	Google Cloud Vision API (for ingredient scanning)
-Hosting	AWS / Heroku / Firebase
-Authentication	Firebase Auth / OAuth
