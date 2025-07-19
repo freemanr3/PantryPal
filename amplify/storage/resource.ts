@@ -1,7 +1,7 @@
 import { defineStorage } from '@aws-amplify/backend';
 
 export const storage = defineStorage({
-  name: 'MealMatcherStorage',
+  name: 'PantryPalStorage',
   permissions: {
     authenticated: {
       actions: ['create', 'read', 'update', 'delete'],

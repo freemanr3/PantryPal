@@ -1,7 +1,7 @@
-# 🚀 MealMatcher Production Deployment Guide
+# 🚀 Pantry Pal Production Deployment Guide
 
 ## Overview
-This guide will help you deploy MealMatcher to AWS Amplify with all features working: authentication, Stripe payments, swipe limits, and webhooks.
+This guide will help you deploy Pantry Pal to AWS Amplify with all features working: authentication, Stripe payments, swipe limits, and webhooks.
 
 ## Prerequisites
 1. AWS Account with appropriate permissions
@@ -279,7 +279,7 @@ export const config = {
 
 **🎉 Congratulations!** 
 
-Your MealMatcher application is now production-ready with:
+Your Pantry Pal application is now production-ready with:
 - ✅ Secure authentication
 - ✅ Working payment system
 - ✅ Freemium model with swipe limits

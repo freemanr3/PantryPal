@@ -25,7 +25,7 @@ export default function Header() {
             <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">M</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">MealMatcher</span>
+            <span className="text-xl font-bold text-gray-900">Pantry Pal</span>
           </div>
 
           {/* Navigation */}

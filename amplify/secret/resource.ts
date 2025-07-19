@@ -1,7 +1,7 @@
 import { defineSecret } from '@aws-amplify/backend';
 
 export const secret = defineSecret({
-  name: 'MealMatcherSecrets',
+  name: 'PantryPalSecrets',
   policy: {
     statements: [
       {

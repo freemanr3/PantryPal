@@ -1,0 +1,45 @@
+// Update frontend/src/pages/pricing.tsx with correct pricing
+
+const PRICING_PLANS = {
+  premium: {
+    name: 'Premium',
+    price: '$3',
+    period: '/month',
+    originalPrice: null,
+    description: 'Perfect for cooking enthusiasts',
+    features: [
+      'Unlimited recipe swipes',
+      'Advanced recipe filters',
+      'Smart meal planning',
+      'Grocery list generation',
+      'Nutritional information',
+      'Recipe scaling',
+      'Priority support'
+    ],
+    popular: true,
+    ctaText: 'Start 7-Day Free Trial',
+    trialText: '7 days free, then $3/month'
+  },
+  chef: {
+    name: 'Chef',
+    price: '$9',
+    period: '/month',
+    originalPrice: null,
+    description: 'For serious home chefs',
+    features: [
+      'Everything in Premium',
+      'Exclusive chef recipes',
+      'Wine pairing suggestions',
+      'Advanced cooking techniques',
+      'Video tutorials',
+      'Seasonal menus',
+      'VIP chef community access',
+      'Personal recipe consultation'
+    ],
+    popular: false,
+    ctaText: 'Start 7-Day Free Trial',
+    trialText: '7 days free, then $9/month'
+  }
+};
+
+// Also update frontend/src/pages/checkout.tsx with same pricing
