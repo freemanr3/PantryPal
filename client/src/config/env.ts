@@ -12,6 +12,9 @@ interface EnvConfig {
   API_URL: string;
   IS_DEVELOPMENT: boolean;
   IS_PRODUCTION: boolean;
+  COGNITO_USER_POOL_ID: string;
+  COGNITO_CLIENT_ID: string;
+  AWS_REGION: string;
 }
 
 // Create the environment configuration object
@@ -24,10 +27,13 @@ export const ENV: EnvConfig = {
   ),
   IS_DEVELOPMENT: import.meta.env.DEV,
   IS_PRODUCTION: import.meta.env.PROD,
+  COGNITO_USER_POOL_ID: import.meta.env.VITE_COGNITO_USER_POOL_ID || 'us-east-2_YWfa08XCX',
+  COGNITO_CLIENT_ID: import.meta.env.VITE_COGNITO_CLIENT_ID || '4sj8htmmqst54qdg7joa8guams',
+  AWS_REGION: import.meta.env.VITE_AWS_REGION || 'us-east-2',
 };
 
-// List of required environment variables
-const requiredEnvVars = ['VITE_SPOONACULAR_API_KEY'];
+// List of required environment variables for production
+const requiredEnvVars = ENV.IS_PRODUCTION ? ['VITE_SPOONACULAR_API_KEY'] : [];
 
 // Validate required environment variables
 export function validateEnv(): void {

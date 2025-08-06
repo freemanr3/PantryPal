@@ -7,15 +7,18 @@ import { generateClient } from 'aws-amplify/api';
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: process.env.VITE_COGNITO_USER_POOL_ID!,
-      userPoolClientId: process.env.VITE_COGNITO_CLIENT_ID!,
+      userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID || 'us-east-2_YWfa08XCX',
+      userPoolClientId: import.meta.env.VITE_COGNITO_CLIENT_ID || '4sj8htmmqst54qdg7joa8guams',
       signUpVerificationMethod: 'code',
+      loginWith: {
+        email: true,
+      },
     }
   },
   Storage: {
     S3: {
-      bucket: process.env.VITE_S3_BUCKET!,
-      region: process.env.VITE_AWS_REGION!,
+      bucket: import.meta.env.VITE_S3_BUCKET || '',
+      region: import.meta.env.VITE_AWS_REGION || 'us-east-2',
     }
   }
 });
@@ -24,26 +27,24 @@ Amplify.configure({
 export const uploadImage = async (file: File, key: string) => {
   try {
     const result = await uploadData({
-      key,
+      path: key,
       data: file,
       options: {
-        contentType: file.type,
-        accessLevel: 'public'
+        contentType: file.type
       }
     });
-    return result.key;
+    return result.path;
   } catch (error) {
     console.error('Error uploading file:', error);
     throw error;
   }
 };
 
-export const getImageUrl = async (key: string) => {
+export const getImageUrl = async (path: string) => {
   try {
     return await getUrl({
-      key,
+      path,
       options: {
-        accessLevel: 'public',
         expiresIn: 3600 // 1 hour
       }
     });
@@ -53,13 +54,10 @@ export const getImageUrl = async (key: string) => {
   }
 };
 
-export const deleteImage = async (key: string) => {
+export const deleteImage = async (path: string) => {
   try {
     await remove({
-      key,
-      options: {
-        accessLevel: 'public'
-      }
+      path
     });
   } catch (error) {
     console.error('Error deleting image:', error);
