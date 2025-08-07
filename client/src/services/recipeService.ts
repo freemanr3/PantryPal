@@ -187,252 +187,53 @@ class RecipeService {
     ApiCache.clearExpiredCache();
   }
 
-  async getRecipesByIngredients(ingredients: string[], options: RecipeSearchOptions = {}): Promise<Recipe[]> {
-    const cacheKey = { ingredients, options };
-    
-    // Try cache first
-    const cached = ApiCache.getFromCache<Recipe[]>('recipes_by_ingredients', cacheKey);
-    if (cached) return cached;
-    
-    // Make API request with deduplication
-    const requestKey = `recipes_by_ingredients_${JSON.stringify(cacheKey)}`;
-    
-    return RequestManager.deduplicateRequest(requestKey, async () => {
-      console.log(`🌐 API CALL: getRecipesByIngredients`, { ingredients: ingredients.length, options });
-      
+  async searchByIngredients(ingredients: string[], options: RecipeSearchOptions = {}): Promise<Recipe[]> {
+    // Use backend API Gateway endpoint
     const params = new URLSearchParams({
-      ingredients: ingredients.join(','),
-      number: (options.number || 10).toString(),
-      ranking: (options.ranking || 2).toString(),
-      ignorePantry: 'true',
-      ...(options.maxMissingIngredients && { limitLicense: options.maxMissingIngredients.toString() }),
-        ...(options.dishType && options.dishType !== 'any' && { type: options.dishType }),
+      options: encodeURIComponent(JSON.stringify({
+        ingredients,
+        ...options,
+      })),
     });
-
-    const url = getFullUrl(
-      `${API_ENDPOINTS.RECIPES.SPOONACULAR.SEARCH_BY_INGREDIENTS}?${params}`,
-      API_BASE_URLS.SPOONACULAR
-    );
-
+    const url = `${API_BASE_URLS.BACKEND}/recipes?${params}`;
     const response = await fetch(url, {
-      headers: getHeaders('spoonacular'),
+      headers: getHeaders('default'),
+      credentials: 'include',
     });
-
     if (!response.ok) {
       throw new Error('Failed to fetch recipes');
     }
-
-    const data = await response.json() as SpoonacularRecipe[];
-      const recipes = data.map(transformSpoonacularRecipe);
-      
-      // Cache the result
-      ApiCache.saveToCache('recipes_by_ingredients', cacheKey, recipes);
-      
-      return recipes;
-    });
+    const data = await response.json();
+    return data.results || [];
   }
 
   async getRecipeDetails(id: number): Promise<RecipeDetail> {
-    const cacheKey = { id };
-    
-    // Try cache first
-    const cached = ApiCache.getFromCache<RecipeDetail>('recipe_details', cacheKey);
-    if (cached) return cached;
-    
-    // Make API request with deduplication
-    const requestKey = `recipe_details_${id}`;
-    
-    return RequestManager.deduplicateRequest(requestKey, async () => {
-      console.log(`🌐 API CALL: getRecipeDetails`, { id });
-      
-    const url = getFullUrl(
-      API_ENDPOINTS.RECIPES.SPOONACULAR.RECIPE_DETAILS(id),
-      API_BASE_URLS.SPOONACULAR
-    );
-
+    // Use backend API Gateway endpoint
+    const url = `${API_BASE_URLS.BACKEND}/recipes/${id}`;
     const response = await fetch(url, {
-      headers: getHeaders('spoonacular'),
+      headers: getHeaders('default'),
+      credentials: 'include',
     });
-
     if (!response.ok) {
       throw new Error('Failed to fetch recipe details');
     }
-
-    const data = await response.json() as SpoonacularRecipe;
-      const recipe = transformSpoonacularRecipe(data) as RecipeDetail;
-      
-      // Cache the result
-      ApiCache.saveToCache('recipe_details', cacheKey, recipe);
-      
-      return recipe;
-    });
-  }
-
-  async getRecipesBulk(ids: number[]): Promise<RecipeDetail[]> {
-    // Filter out IDs we already have cached
-    const uncachedIds: number[] = [];
-    const cachedRecipes: RecipeDetail[] = [];
-    
-    ids.forEach(id => {
-      const cached = ApiCache.getFromCache<RecipeDetail>('recipe_details', { id });
-      if (cached) {
-        cachedRecipes.push(cached);
-      } else {
-        uncachedIds.push(id);
-      }
-    });
-    
-    // If all recipes are cached, return them
-    if (uncachedIds.length === 0) {
-      console.log(`✅ All ${ids.length} recipes found in cache`);
-      // Maintain original order
-      return ids.map(id => cachedRecipes.find(r => r.id === id)!).filter(Boolean);
-    }
-    
-    // Only fetch uncached recipes
-    const requestKey = `recipes_bulk_${uncachedIds.join(',')}`;
-    
-    const newRecipes = await RequestManager.deduplicateRequest(requestKey, async () => {
-      console.log(`🌐 API CALL: getRecipesBulk`, { 
-        total: ids.length, 
-        cached: cachedRecipes.length, 
-        fetching: uncachedIds.length 
-      });
-      
-      const params = new URLSearchParams({
-        ids: uncachedIds.join(','),
-    });
-
-    const url = getFullUrl(
-      `${API_ENDPOINTS.RECIPES.SPOONACULAR.BULK_INFORMATION}?${params}`,
-      API_BASE_URLS.SPOONACULAR
-    );
-
-    const response = await fetch(url, {
-      headers: getHeaders('spoonacular'),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch recipes in bulk');
-    }
-
-    const data = await response.json() as SpoonacularRecipe[];
-      const recipes = data.map(recipe => transformSpoonacularRecipe(recipe) as RecipeDetail);
-      
-      // Cache each recipe individually for future use
-      recipes.forEach(recipe => {
-        ApiCache.saveToCache('recipe_details', { id: recipe.id }, recipe);
-      });
-      
-      return recipes;
-    });
-    
-    // Combine cached and new recipes, maintaining original order
-    const allRecipes = [...cachedRecipes, ...newRecipes];
-    return ids.map(id => allRecipes.find(r => r.id === id)!).filter(Boolean);
-  }
-
-  async getRandomRecipes(number: number = 10, mealType?: string): Promise<RecipeDetail[]> {
-    const cacheKey = { number, mealType };
-    
-    // For random recipes, use shorter cache time (1 hour) to keep content fresh
-    const shortCacheKey = `random_recipes_${Date.now() - (Date.now() % (60 * 60 * 1000))}_${JSON.stringify(cacheKey)}`;
-    const cached = ApiCache.getFromCache<RecipeDetail[]>('random_recipes', shortCacheKey);
-    if (cached) return cached;
-    
-    const requestKey = `random_recipes_${JSON.stringify(cacheKey)}`;
-    
-    return RequestManager.deduplicateRequest(requestKey, async () => {
-      console.log(`🌐 API CALL: getRandomRecipes`, { number, mealType });
-      
-    const params = new URLSearchParams({
-      number: number.toString(),
-        ...(mealType && mealType !== 'any' && { tags: mealType }),
-    });
-
-    const url = getFullUrl(
-      `${API_ENDPOINTS.RECIPES.SPOONACULAR.RANDOM}?${params}`,
-      API_BASE_URLS.SPOONACULAR
-    );
-
-    const response = await fetch(url, {
-      headers: getHeaders('spoonacular'),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch random recipes');
-    }
-
     const data = await response.json();
-    const recipes = data.recipes as SpoonacularRecipe[];
-      const transformedRecipes = recipes.map(recipe => transformSpoonacularRecipe(recipe) as RecipeDetail);
-      
-      // Cache the result with shorter expiry for random content
-      ApiCache.saveToCache('random_recipes', shortCacheKey, transformedRecipes);
-      
-      // Also cache individual recipes for future detail requests
-      transformedRecipes.forEach(recipe => {
-        ApiCache.saveToCache('recipe_details', { id: recipe.id }, recipe);
-      });
-      
-      return transformedRecipes;
-    });
+    return data.recipe;
   }
 
-  // Alias method for backward compatibility
-  async searchByIngredients(ingredients: string[], options: RecipeSearchOptions = {}): Promise<Recipe[]> {
-    return this.getRecipesByIngredients(ingredients, options);
-  }
-
-  async getAnalyzedInstructions(id: number): Promise<AnalyzedInstruction[]> {
-    const cacheKey = { id };
-    
-    // Try cache first
-    const cached = ApiCache.getFromCache<AnalyzedInstruction[]>('analyzed_instructions', cacheKey);
-    if (cached) return cached;
-    
-    const requestKey = `analyzed_instructions_${id}`;
-    
-    return RequestManager.deduplicateRequest(requestKey, async () => {
-      console.log(`🌐 API CALL: getAnalyzedInstructions`, { id });
-      
-      const url = getFullUrl(
-        API_ENDPOINTS.RECIPES.SPOONACULAR.ANALYZED_INSTRUCTIONS(id),
-        API_BASE_URLS.SPOONACULAR
-      );
-
-      const response = await fetch(url, {
-        headers: getHeaders('spoonacular'),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch recipe instructions');
-      }
-
-      const data = await response.json();
-      
-      // Cache the result
-      ApiCache.saveToCache('analyzed_instructions', cacheKey, data);
-      
-      return data;
-    });
-  }
-
-  // Backend API methods (these don't count against Spoonacular limits)
-  async saveRecipe(recipe: Recipe): Promise<Recipe> {
-    const url = getFullUrl(API_ENDPOINTS.RECIPES.BACKEND.SAVE);
-
+  async saveRecipe(userId: string, recipeId: number): Promise<{ message: string; upgrade?: boolean }> {
+    // Use backend API Gateway endpoint for saving recipe with daily limit enforcement
+    const url = `${API_BASE_URLS.BACKEND}/users/${userId}/saved-recipes`;
     const response = await fetch(url, {
       method: 'POST',
       headers: getHeaders('default'),
-      body: JSON.stringify(recipe),
       credentials: 'include',
+      body: JSON.stringify({ recipeId }),
     });
-
     if (!response.ok) {
-      throw new Error('Failed to save recipe');
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to save recipe');
     }
-
     return response.json();
   }
 

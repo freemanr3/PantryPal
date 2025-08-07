@@ -2,8 +2,9 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import Stripe from 'stripe';
+import * as AWSXRay from 'aws-xray-sdk-core';
 
-const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+const client = AWSXRay.captureAWSv3Client(new DynamoDBClient({ region: process.env.AWS_REGION }));
 const docClient = DynamoDBDocumentClient.from(client);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -11,69 +12,75 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export const handler: APIGatewayProxyHandler = async (event) => {
-  try {
-    const sig = event.headers['stripe-signature'];
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-    if (!sig || !webhookSecret) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing signature or webhook secret' })
-      };
-    }
-
-    let stripeEvent: Stripe.Event;
-
+  AWSXRay.captureFunc('StripeWebhooksHandler', async (subsegment) => {
     try {
-      stripeEvent = stripe.webhooks.constructEvent(event.body!, sig, webhookSecret);
-    } catch (err) {
-      console.error('Webhook signature verification failed:', err);
+      console.log('Stripe webhook event:', JSON.stringify(event));
+      const sig = event.headers['stripe-signature'];
+      const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+      if (!sig || !webhookSecret) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Missing signature or webhook secret' })
+        };
+      }
+
+      let stripeEvent: Stripe.Event;
+
+      try {
+        stripeEvent = stripe.webhooks.constructEvent(event.body!, sig, webhookSecret);
+      } catch (err) {
+        console.error('Webhook signature verification failed:', err);
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Invalid signature' })
+        };
+      }
+
+      console.log('Processing webhook event:', stripeEvent.type);
+
+      switch (stripeEvent.type) {
+        case 'customer.subscription.created':
+        case 'customer.subscription.updated':
+          await handleSubscriptionUpdate(stripeEvent.data.object as Stripe.Subscription);
+          break;
+
+        case 'customer.subscription.deleted':
+          await handleSubscriptionCancellation(stripeEvent.data.object as Stripe.Subscription);
+          break;
+
+        case 'invoice.payment_succeeded':
+          await handlePaymentSucceeded(stripeEvent.data.object as Stripe.Invoice);
+          break;
+
+        case 'invoice.payment_failed':
+          await handlePaymentFailed(stripeEvent.data.object as Stripe.Invoice);
+          break;
+
+        case 'customer.subscription.trial_will_end':
+          await handleTrialWillEnd(stripeEvent.data.object as Stripe.Subscription);
+          break;
+
+        default:
+          console.log(`Unhandled event type: ${stripeEvent.type}`);
+      }
+
       return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid signature' })
+        statusCode: 200,
+        body: JSON.stringify({ received: true })
       };
+
+    } catch (error) {
+      console.error('Webhook processing error:', error);
+      subsegment?.addError(error as Error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Internal server error' })
+      };
+    } finally {
+      subsegment?.close();
     }
-
-    console.log('Processing webhook event:', stripeEvent.type);
-
-    switch (stripeEvent.type) {
-      case 'customer.subscription.created':
-      case 'customer.subscription.updated':
-        await handleSubscriptionUpdate(stripeEvent.data.object as Stripe.Subscription);
-        break;
-
-      case 'customer.subscription.deleted':
-        await handleSubscriptionCancellation(stripeEvent.data.object as Stripe.Subscription);
-        break;
-
-      case 'invoice.payment_succeeded':
-        await handlePaymentSucceeded(stripeEvent.data.object as Stripe.Invoice);
-        break;
-
-      case 'invoice.payment_failed':
-        await handlePaymentFailed(stripeEvent.data.object as Stripe.Invoice);
-        break;
-
-      case 'customer.subscription.trial_will_end':
-        await handleTrialWillEnd(stripeEvent.data.object as Stripe.Subscription);
-        break;
-
-      default:
-        console.log(`Unhandled event type: ${stripeEvent.type}`);
-    }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ received: true })
-    };
-
-  } catch (error) {
-    console.error('Webhook processing error:', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
-    };
-  }
+  });
 };
 
 async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {

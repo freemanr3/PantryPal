@@ -6,7 +6,6 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
@@ -17,7 +16,7 @@ export class PantryPalStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // VPC for ElastiCache and Lambda functions
+    // VPC for Lambda functions (ElastiCache removed)
     const vpc = new ec2.Vpc(this, 'PantryPalVPC', {
       maxAzs: 2,
       natGateways: 1,
@@ -41,35 +40,7 @@ export class PantryPalStack extends cdk.Stack {
       }
     });
 
-    // Create ElastiCache cluster with cost-effective configuration
-    const cacheSubnetGroup = new elasticache.CfnSubnetGroup(this, 'CacheSubnetGroup', {
-      subnetIds: vpc.privateSubnets.map(subnet => subnet.subnetId),
-      description: 'Subnet group for ElastiCache'
-    });
-
-    const cacheSecurityGroup = new ec2.SecurityGroup(this, 'CacheSecurityGroup', {
-      vpc,
-      description: 'Security group for ElastiCache cluster',
-      allowAllOutbound: true
-    });
-
-    cacheSecurityGroup.addIngressRule(
-      ec2.Peer.ipv4(vpc.vpcCidrBlock),
-      ec2.Port.tcp(6379),
-      'Allow Redis access from Lambda functions'
-    );
-
-    const cacheCluster = new elasticache.CfnCacheCluster(this, 'RecipeCache', {
-      cacheNodeType: 'cache.t4g.micro', // More cost-effective ARM-based instance
-      engine: 'redis',
-      numCacheNodes: 1,
-      vpcSecurityGroupIds: [cacheSecurityGroup.securityGroupId],
-      cacheSubnetGroupName: cacheSubnetGroup.ref,
-      engineVersion: '7.0',
-      port: 6379,
-      preferredMaintenanceWindow: 'sun:05:00-sun:09:00',
-      autoMinorVersionUpgrade: true
-    });
+    // (ElastiCache subnet group, security group, and cluster removed)
 
     // S3 Buckets with optimized settings
     const staticAssetsBucket = new s3.Bucket(this, 'StaticAssets', {
@@ -247,7 +218,7 @@ export class PantryPalStack extends cdk.Stack {
         STRIPE_PREMIUM_PRICE_ID: "price_1RNusNGUd62jKHFhVMp4rWhc",
         STRIPE_CHEF_PRICE_ID: "price_1RTYqOGUd62jKHFhMOvZX7gH"
       }))
-    });    });
+    });
 
     // Lambda Layer for shared code
     const sharedLayer = new lambda.LayerVersion(this, 'SharedLayer', {
@@ -296,7 +267,6 @@ export class PantryPalStack extends cdk.Stack {
       handler: 'index.handler',
       layers: [sharedLayer],
       environment: {
-        REDIS_ENDPOINT: cacheCluster.attrRedisEndpointAddress,
         RECIPES_TABLE: recipesTable.tableName,
         API_KEYS_SECRET: apiKeys.secretName
       },
@@ -309,7 +279,6 @@ export class PantryPalStack extends cdk.Stack {
       handler: 'index.handler',
       layers: [sharedLayer],
       environment: {
-        REDIS_ENDPOINT: cacheCluster.attrRedisEndpointAddress,
         RECIPES_TABLE: recipesTable.tableName,
         API_KEYS_SECRET: apiKeys.secretName
       },
