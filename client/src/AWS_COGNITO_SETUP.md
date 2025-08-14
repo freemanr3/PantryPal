@@ -52,16 +52,16 @@ Update the `client/src/config/aws-exports.js` file with your actual values:
 
 ```javascript
 const awsconfig = {
-  aws_project_region: "us-east-1", // Your AWS region
-  aws_cognito_region: "us-east-1", // Your AWS region
-  aws_user_pools_id: "us-east-1_XXXXXXXXX", // Your User Pool ID
+  aws_project_region: "us-east-2", // Your AWS region
+  aws_cognito_region: "us-east-2", // Your AWS region
+  aws_user_pools_id: "us-east-2_XXXXXXXXX", // Your User Pool ID
   aws_user_pools_web_client_id: "XXXXXXXXXXXXXXXXXXXXXXXXXX", // Your App Client ID
   
   // Authentication settings
   Auth: {
     // Optional, used for Amazon Cognito hosted UI specified in the Auth documentation
     oauth: {
-      domain: "your-domain.auth.us-east-1.amazoncognito.com", // Your Hosted UI domain
+      domain: "your-domain.auth.us-east-2.amazoncognito.com", // Your Hosted UI domain
       scope: ["email", "profile", "openid"],
       redirectSignIn: "http://localhost:5173/oauth/callback", // Replace with your actual callback URL
       redirectSignOut: "http://localhost:5173/", // Replace with your sign-out URL

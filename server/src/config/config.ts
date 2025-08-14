@@ -14,7 +14,7 @@ export const CONFIG = {
   DATABASE_URL: process.env.DATABASE_URL,
   
   // AWS Configuration (for Amplify)
-  AWS_REGION: process.env.AWS_REGION || 'us-east-1',
+  AWS_REGION: process.env.AWS_REGION || 'us-east-2',
   
   // API Configuration
   API_URL: process.env.NODE_ENV === 'production' 

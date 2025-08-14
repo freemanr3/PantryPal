@@ -5,26 +5,26 @@ const client = generateClient();
 
 export class StorageService {
   static async uploadProfilePicture(file: File, userId: string) {
-    const key = `private/${userId}/profile/${file.name}`;
-    return await this.uploadFile(file, key);
+    const path = `private/${userId}/profile/${file.name}`;
+    return await this.uploadFile(file, path);
   }
 
   static async uploadCustomRecipeImage(file: File, recipeId: string, userId: string) {
-    const key = `protected/recipes/${userId}/${recipeId}/${file.name}`;
-    return await this.uploadFile(file, key);
+    const path = `protected/recipes/${userId}/${recipeId}/${file.name}`;
+    return await this.uploadFile(file, path);
   }
 
   static async uploadScannedIngredient(file: File, userId: string) {
-    const key = `private/${userId}/ingredients/${file.name}`;
-    return await this.uploadFile(file, key);
+    const path = `private/${userId}/ingredients/${file.name}`;
+    return await this.uploadFile(file, path);
   }
 
   static async cacheApiImage(imageUrl: string, apiSource: 'spoonacular' | 'edamam', imageId: string) {
     try {
       // Check if image is already cached
-      const cacheKey = `cache/${apiSource}/${imageId}`;
+      const cachePath = `cache/${apiSource}/${imageId}`;
       try {
-        const cachedUrl = await this.getImageUrl(cacheKey);
+        const cachedUrl = await this.getImageUrl(cachePath);
         if (cachedUrl) return cachedUrl;
       } catch (e) {
         // Image not cached, continue to cache it
@@ -36,8 +36,8 @@ export class StorageService {
       const file = new File([blob], `${imageId}.jpg`, { type: 'image/jpeg' });
 
       // Upload to S3
-      await this.uploadFile(file, cacheKey);
-      return await this.getImageUrl(cacheKey);
+      await this.uploadFile(file, cachePath);
+      return await this.getImageUrl(cachePath);
     } catch (error) {
       console.error('Error caching API image:', error);
       // Return original URL if caching fails
@@ -45,54 +45,45 @@ export class StorageService {
     }
   }
 
-  private static async uploadFile(file: File, key: string) {
+  private static async uploadFile(file: File, path: string) {
     try {
       const result = await uploadData({
-        key,
+        path,
         data: file,
         options: {
-          contentType: file.type,
-          accessLevel: key.startsWith('public/') ? 'public' : 
-                      key.startsWith('protected/') ? 'protected' : 'private'
+          contentType: file.type
         }
       });
-      return result.key;
+      return result.result.path;
     } catch (error) {
       console.error('Error uploading file:', error);
       throw error;
     }
   }
 
-  static async getImageUrl(key: string) {
+  static async getImageUrl(path: string) {
     try {
-      const accessLevel = key.startsWith('public/') ? 'public' : 
-                         key.startsWith('protected/') ? 'protected' : 'private';
-      return await getUrl({
-        key,
+      const result = await getUrl({
+        path,
         options: {
-          accessLevel,
-          expiresIn: accessLevel === 'private' ? 3600 : 86400 // 1 hour for private, 24 hours for others
+          expiresIn: 3600 // 1 hour
         }
       });
+      return result.url;
     } catch (error) {
       console.error('Error getting image URL:', error);
       throw error;
     }
   }
 
-  static async deleteImage(key: string) {
+  static async deleteImage(path: string) {
     try {
-      const accessLevel = key.startsWith('public/') ? 'public' : 
-                         key.startsWith('protected/') ? 'protected' : 'private';
       await remove({
-        key,
-        options: {
-          accessLevel
-        }
+        path
       });
     } catch (error) {
       console.error('Error deleting image:', error);
       throw error;
     }
   }
-} 
+}

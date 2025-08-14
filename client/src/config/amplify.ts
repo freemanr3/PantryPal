@@ -33,7 +33,8 @@ export const uploadImage = async (file: File, key: string) => {
         contentType: file.type
       }
     });
-    return result.path;
+    const uploadResult = await result.result;
+    return uploadResult.path;
   } catch (error) {
     console.error('Error uploading file:', error);
     throw error;

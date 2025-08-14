@@ -14,7 +14,7 @@ const sql = neon(process.env.DATABASE_URL!);
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? process.env.CLIENT_URL || 'https://mealmatcher.amplifyapp.com'
+    ? process.env.CLIENT_URL || 'https://pantrypal.amplifyapp.com'
     : 'http://localhost:5179',
   credentials: true
 }));

@@ -7,7 +7,7 @@ const app = new cdk.App();
 new PantryPalStack(app, 'PantryPalStack', {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION || 'us-east-1'
+    region: process.env.CDK_DEFAULT_REGION || 'us-east-2'
   },
   description: 'Infrastructure stack for Pantry Pal application'
 });
