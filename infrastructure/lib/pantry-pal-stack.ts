@@ -6,7 +6,7 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
+// import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import * as path from 'path';
@@ -16,29 +16,7 @@ export class PantryPalStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // VPC for Lambda functions (ElastiCache removed)
-    const vpc = new ec2.Vpc(this, 'PantryPalVPC', {
-      maxAzs: 2,
-      natGateways: 1,
-      ipAddresses: ec2.IpAddresses.cidr('172.16.0.0/16'),
-      subnetConfiguration: [
-        {
-          name: 'Private',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-          cidrMask: 24
-        },
-        {
-          name: 'Public',
-          subnetType: ec2.SubnetType.PUBLIC,
-          cidrMask: 24
-        }
-      ],
-      gatewayEndpoints: {
-        S3: {
-          service: ec2.GatewayVpcEndpointAwsService.S3
-        }
-      }
-    });
+    // No VPC/NAT: Lambdas access AWS services over public endpoints to avoid NAT costs
 
     // (ElastiCache subnet group, security group, and cluster removed)
 
@@ -228,29 +206,15 @@ export class PantryPalStack extends cdk.Stack {
     });
 
     // Lambda functions with optimized settings
-    const lambdaRole = new iam.Role(this, 'LambdaExecutionRole', {
-      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole')
-      ]
-    });
+    // Rely on default execution roles; avoid VPC access policy to reduce cost/complexity
 
-    const lambdaSecurityGroup = new ec2.SecurityGroup(this, 'LambdaSecurityGroup', {
-      vpc,
-      description: 'Security group for Lambda functions',
-      allowAllOutbound: true
-    });
+    // No security group needed without VPC attachment
 
     const commonLambdaProps = {
       runtime: lambda.Runtime.NODEJS_18_X,
       architecture: lambda.Architecture.ARM_64,
       memorySize: 1024,
-      vpc,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
-      },
-      securityGroups: [lambdaSecurityGroup],
-      role: lambdaRole,
+      // no VPC attachment to avoid NAT charges
       logRetention: 7,
       environment: {
         NODE_OPTIONS: '--enable-source-maps'
