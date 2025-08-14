@@ -6,7 +6,7 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
+// import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import * as path from 'path';
@@ -16,29 +16,7 @@ export class PantryPalStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // VPC for Lambda functions (ElastiCache removed)
-    const vpc = new ec2.Vpc(this, 'PantryPalVPC', {
-      maxAzs: 2,
-      natGateways: 1,
-      ipAddresses: ec2.IpAddresses.cidr('172.16.0.0/16'),
-      subnetConfiguration: [
-        {
-          name: 'Private',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-          cidrMask: 24
-        },
-        {
-          name: 'Public',
-          subnetType: ec2.SubnetType.PUBLIC,
-          cidrMask: 24
-        }
-      ],
-      gatewayEndpoints: {
-        S3: {
-          service: ec2.GatewayVpcEndpointAwsService.S3
-        }
-      }
-    });
+    // No VPC/NAT to avoid NAT gateway charges; use public service endpoints
 
     // (ElastiCache subnet group, security group, and cluster removed)
 
@@ -206,19 +184,8 @@ export class PantryPalStack extends cdk.Stack {
       ]
     });
 
-    // Secrets with real API keys
-    const apiKeys = new secretsmanager.Secret(this, "ExternalApiKeys", {
-      secretName: "pantry-pal/api-keys",
-      secretValue: secretsmanager.SecretValue.unsafePlainText(JSON.stringify({
-        SPOONACULAR_API_KEY: "e551a15401d14103b79ca1d865daa038",
-        EDAMAM_APP_ID: "893b140e",
-        EDAMAM_APP_KEY: "8edfacd2f98015dd77e9dc3220a31fe3",
-        STRIPE_SECRET_KEY: "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",
-        STRIPE_WEBHOOK_SECRET: "whsec_UxzRlAVuhWH7OxWVOs244Q1GslWyWwec",
-        STRIPE_PREMIUM_PRICE_ID: "price_1RNusNGUd62jKHFhVMp4rWhc",
-        STRIPE_CHEF_PRICE_ID: "price_1RTYqOGUd62jKHFhMOvZX7gH"
-      }))
-    });
+    // Reference existing secret by name. Populate it externally.
+    const apiKeys = secretsmanager.Secret.fromSecretNameV2(this, 'ExternalApiKeys', 'pantry-pal/api-keys');
 
     // Lambda Layer for shared code
     const sharedLayer = new lambda.LayerVersion(this, 'SharedLayer', {
@@ -228,29 +195,14 @@ export class PantryPalStack extends cdk.Stack {
     });
 
     // Lambda functions with optimized settings
-    const lambdaRole = new iam.Role(this, 'LambdaExecutionRole', {
-      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole')
-      ]
-    });
+    // No custom role needed for VPC access
 
-    const lambdaSecurityGroup = new ec2.SecurityGroup(this, 'LambdaSecurityGroup', {
-      vpc,
-      description: 'Security group for Lambda functions',
-      allowAllOutbound: true
-    });
+    // No security group without VPC attachment
 
     const commonLambdaProps = {
       runtime: lambda.Runtime.NODEJS_18_X,
       architecture: lambda.Architecture.ARM_64,
-      memorySize: 1024,
-      vpc,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
-      },
-      securityGroups: [lambdaSecurityGroup],
-      role: lambdaRole,
+      memorySize: 512,
       logRetention: 7,
       environment: {
         NODE_OPTIONS: '--enable-source-maps'
@@ -311,13 +263,13 @@ export class PantryPalStack extends cdk.Stack {
     const stripeWebhooksLambda = new lambda.Function(this, 'StripeWebhooks', {
       ...commonLambdaProps,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda/functions/stripe-webhooks')),
+      handler: 'index.handler',
       environment: {
         USERS_TABLE: usersTable.tableName,
-        STRIPE_SECRET_KEY: "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",
-        STRIPE_WEBHOOK_SECRET: "whsec_UxzRlAVuhWH7OxWVOs244Q1GslWyWwec",
-        STRIPE_PREMIUM_PRICE_ID: "price_1RNusNGUd62jKHFhVMp4rWhc",
-        STRIPE_CHEF_PRICE_ID: "price_1RTYqOGUd62jKHFhMOvZX7gH"
+        API_KEYS_SECRET: (apiKeys as any).secretName
       },
+      timeout: cdk.Duration.seconds(10)
+    });
     // Swipe Tracker Lambda
     const swipeTrackerLambda = new lambda.Function(this, 'SwipeTracker', {
       ...commonLambdaProps,
